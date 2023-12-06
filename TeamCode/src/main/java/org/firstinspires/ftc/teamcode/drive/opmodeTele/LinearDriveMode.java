@@ -47,97 +47,109 @@ public class LinearDriveMode extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad2.right_trigger > 0.1) {
-
-                robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() + calculateThrottle(gamepad2.right_trigger * 12);
-                robot.outtake.manualTarget++;
-                robot.outtake.manualLevel(robot.outtake.manualTarget);
-            }
-            if (gamepad2.left_trigger > 0.1 && subZero) {
-                if(robot.outtake.motorGlisiera.getCurrentPosition() < 1){
-                    subZero = true;
-                    break;
-                }
-                if(robot.outtake.motorGlisiera.getCurrentPosition() >= 10){
-                    subZero = false;
-                    break;
-                }
-                robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() - calculateThrottle(gamepad2.left_trigger * 12);
+                robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() - calculateThrottle(gamepad2.right_trigger * 12);
                 robot.outtake.manualTarget--;
                 robot.outtake.manualLevel(robot.outtake.manualTarget);
             }
+            if(robot.outtake.motorGlisiera.getCurrentPosition() > 1 ){
+                subZero = true;
+            }
+            if(robot.outtake.motorGlisiera.getCurrentPosition() <= -10){
+                subZero = false;
+            }
+            if (gamepad2.left_trigger > 0.1 && !subZero) {
+                robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() + calculateThrottle(gamepad2.left_trigger * 12);
+                robot.outtake.manualTarget++;
+                robot.outtake.manualLevel(robot.outtake.manualTarget);
+            }
 
-            if(robot.outtake.motorGlisiera.getCurrentPosition() > 100 && robot.outtake.motorGlisiera.getCurrentPosition() < 255){
+
+//            if(robot.outtake.motorGlisiera.getCurrentPosition() > 100 && robot.outtake.motorGlisiera.getCurrentPosition() < 255){
+//                robot.outtake.inchideCuva();
+//                robot.outtake.servoStanga.setPosition(0);
+//                robot.outtake.servoDreapta.setPosition(0);
+//            }
+//            if(robot.outtake.motorGlisiera.getCurrentPosition() > 254 && robot.outtake.motorGlisiera.getCurrentPosition() < 400){
+//                robot.outtake.inchideCuva();
+//                robot.outtake.servoStanga.setPosition(0.05);
+//                robot.outtake.servoDreapta.setPosition(0.05);
+//            }
+
+//            if(gamepad2.left_stick_button && !changed) {
+//                if(robot.intake.servoSweeper.getPosition() == 0.1){
+//                    robot.intake.servoSweeper.setPosition(0.8);
+//                }
+//                else {
+//                    robot.intake.servoSweeper.setPosition(0.1);
+//                }
+//                changed = true;
+//            }
+//            else if(!gamepad2.left_stick_button) changed = false;
+
+            if(gamepad2.triangle){
                 robot.outtake.inchideCuva();
-                robot.outtake.servoStanga.setPosition(0);
-                robot.outtake.servoDreapta.setPosition(0);
+                robot.outtake.coboaraCuva();
+                robot.outtake.manualLevel(0);
+                if(robot.outtake.motorGlisiera.getCurrentPosition() >= -5 && robot.outtake.motorGlisiera.getCurrentPosition() <= 5){
+                    robot.outtake.deschideCuva();
+                }
             }
-            if(robot.outtake.motorGlisiera.getCurrentPosition() > 254 && robot.outtake.motorGlisiera.getCurrentPosition() < 400){
+            if(gamepad2.square){
                 robot.outtake.inchideCuva();
-                robot.outtake.servoStanga.setPosition(0.05);
-                robot.outtake.servoDreapta.setPosition(0.05);
-            }
-
-            if(gamepad2.left_stick_button && !changed) {
-                if(robot.intake.servoSweeper.getPosition() == 0.1){
-                    robot.intake.servoSweeper.setPosition(0.8);
+                robot.outtake.manualLevel(-1230);
+                if(robot.outtake.motorGlisiera.getCurrentPosition() >= -1235 && robot.outtake.motorGlisiera.getCurrentPosition() <= -1225){
+                    robot.outtake.ridicaCuva();
                 }
-                else {
-                    robot.intake.servoSweeper.setPosition(0.1);
-                }
-                changed = true;
-            }
-            else if(!gamepad2.left_stick_button) changed = false;
-
-            if(gamepad2.dpad_up){
-                pos= pos + 0.05;
-                sleep(200);
-            }
-            if(gamepad2.dpad_down){
-                pos= pos - 0.05;
-                sleep(200);
-            }
-            if(gamepad2.dpad_right){
-                robot.outtake.servoStanga.setPosition(pos);
-                robot.outtake.servoDreapta.setPosition(pos);
             }
 
-
-            if(gamepad2.cross)
-            {
-                 robot.intake.setSweepPower(0.4);
-            }
-            else if(gamepad2.circle)
-            {
-                robot.intake.setSweepPower(-0.4);
-            }
-            else{
-                robot.intake.setSweepPower(0);
+            if(gamepad2.left_bumper){
+                robot.outtake.deschideCuva();
             }
 
-            if(gamepad2.right_bumper)
-                robot.intake.activateConveyor(1);
-            else if(gamepad2.left_bumper)
-                robot.intake.activateConveyor(-1);
-            else
-                robot.intake.stopConveyor();
+            if(gamepad2.right_bumper){
+                robot.outtake.inchideCuva();
+            }
+
+            if(gamepad2.cross){
+                robot.outtake.ridicaCuva();
+            }
+            if(gamepad2.circle){
+                robot.outtake.coboaraCuva();
+            }
+
 
 
             /** GAMEPAD1 **/
 
-            if(gamepad1.left_bumper){
-                robot.outtake.deschideCuva();
+            if(gamepad1.right_bumper) {
+                robot.intake.setSweepPower(0.4);
+                robot.intake.activateConveyor(1);
+            }
+            else if(gamepad1.left_bumper) {
+                robot.intake.setSweepPower(-0.4);
+                robot.intake.activateConveyor(-1);
+            }
+            else {
+                robot.intake.setSweepPower(0);
+                robot.intake.stopConveyor();
             }
 
-            if(gamepad1.right_bumper){
-                robot.outtake.inchideCuva();
-            }
+//            if(gamepad1.cross){
+//                robot.intake.setSweepPower(0.4);
+//            }
+//            else if(gamepad1.triangle){
+//                robot.intake.setSweepPower(-0.4);
+//            }
+//            else robot.intake.setSweepPower(0);
+//            if(gamepad1.dpad_down){
+//                robot.intake.activateConveyor(1);
+//            }
+//            else if(gamepad1.dpad_up){
+//                robot.intake.activateConveyor(-1);
+//            }
+//            else robot.intake.stopConveyor();
 
-            if(gamepad1.cross){
-                robot.outtake.ridicaCuva();
-            }
-            if(gamepad1.circle){
-                robot.outtake.coboaraCuva();
-            }
+
 
             robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
             telemetry.addData("Slide ticks: ", robot.outtake.motorGlisiera.getCurrentPosition());
