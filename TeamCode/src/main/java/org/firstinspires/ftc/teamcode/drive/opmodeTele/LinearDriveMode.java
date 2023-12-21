@@ -10,6 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
+import org.firstinspires.ftc.teamcode.drive.robot.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.util.PoseStorage;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(name="MecanumDriveMode", group="Linear OpMode")
 
@@ -20,6 +24,7 @@ public class LinearDriveMode extends LinearOpMode {
     private ElapsedTime timer = new ElapsedTime(250);
     ColorSensor color;
     boolean changed = false; //Outside of loop()
+    Pose2d poseEstimate;
 
     //    private DcMotor hangerMotor = null, winchMotor = null;
     public double calculateThrottle(float x) {
@@ -30,16 +35,19 @@ public class LinearDriveMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         telemetry.addData(">", "Initializing...");
         telemetry.update();
 
         robot = new MecanumRobot(hardwareMap);
-
+        robot.drive.setPoseEstimate(PoseStorage.currentPose);
 
 //        color = hardwareMap.get(ColorSensor.class, "Color");
         while (robot.isInitialize() && opModeIsActive()) {
             idle();
         }
+
+//        robot.camera.visionPortal.resumeStreaming();
 
         telemetry.addData(">", "Initialized");
         telemetry.update();
@@ -48,15 +56,6 @@ public class LinearDriveMode extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-
-            if (robot.outtake.pixelStanga() && robot.outtake.pixelDreapta()) {
-                telemetry.addLine("Both Pixels engaged!");
-            } else if (robot.outtake.pixelStanga()) {
-                telemetry.addLine("Left Pixel engaged!");
-            } else if (robot.outtake.pixelDreapta()) {
-                telemetry.addLine("Right Pixel engaged!");
-            }
-
             if (gamepad2.left_trigger > 0.1) {
                 robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() - calculateThrottle(gamepad2.left_trigger * 12);
                 robot.outtake.manualTarget--;
@@ -168,52 +167,72 @@ public class LinearDriveMode extends LinearOpMode {
 //                if(gamepad2.dpad_right)
 //                    robot.outtake.setCuva(pos);
 
-                if (gamepad2.cross) {
-                    robot.outtake.ridicaCuva();
-                }
-                if (gamepad2.circle) {
-                    robot.outtake.coboaraCuva();
-                }
-                if (gamepad2.touchpad) {
-                    robot.outtake.manualLevel(robot.outtake.motorGlisiera.getCurrentPosition() + 30);
-                }
-
-
-                /** GAMEPAD1 **/
-
-                if (gamepad1.right_bumper) {
-                    robot.intake.setSweepPower(0.4);
-                    robot.intake.activateConveyor(-1);
-                } else if (gamepad1.left_bumper) {
-                    robot.intake.setSweepPower(-0.4);
-                    robot.intake.activateConveyor(1);
-                } else {
-                    robot.intake.setSweepPower(0);
-                    robot.intake.stopConveyor();
-                }
-
-                if (gamepad1.right_trigger >= 0.1) {
-                    robot.hanger.motorHanger.setPower(gamepad1.right_trigger);
-                } else if (gamepad1.left_trigger >= 0.1) {
-                    robot.hanger.motorHanger.setPower(-gamepad1.left_trigger);
-                } else {
-                    robot.hanger.motorHanger.setPower(0);
-                }
-
-                robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
-
-
-                /** TELEMETRY **/
-
-                telemetry.addData("AutoMode: ", autoMode);
-                telemetry.addData("Slide ticks: ", robot.outtake.motorGlisiera.getCurrentPosition());
-                telemetry.addData("Sweeper power: ", robot.intake.motorSweeper.getPower());
-                telemetry.addData("Servopos: ", pos);
-                telemetry.addData("senzorDistanta1: ", robot.outtake.senzorDistanta1.getDistance(DistanceUnit.CM));
-                telemetry.addData("senzorDistanta2: ", robot.outtake.senzorDistanta2.getDistance(DistanceUnit.CM));
-                telemetry.update();
+            if (gamepad2.cross) {
+                robot.outtake.ridicaCuva();
+            }
+            if (gamepad2.circle) {
+                robot.outtake.coboaraCuva();
+            }
+            if (gamepad2.touchpad) {
+                robot.outtake.manualLevel(robot.outtake.motorGlisiera.getCurrentPosition() + 30);
             }
 
+
+            /** GAMEPAD1 **/
+
+            if (gamepad1.right_bumper) {
+                robot.intake.setSweepPower(0.4);
+                robot.intake.activateConveyor(-1);
+            } else if (gamepad1.left_bumper) {
+                robot.intake.setSweepPower(-0.4);
+                robot.intake.activateConveyor(1);
+            } else {
+                robot.intake.setSweepPower(0);
+                robot.intake.stopConveyor();
+            }
+
+            if (gamepad1.right_trigger >= 0.1) {
+                robot.hanger.motorHanger.setPower(gamepad1.right_trigger);
+            } else if (gamepad1.left_trigger >= 0.1) {
+                robot.hanger.motorHanger.setPower(-gamepad1.left_trigger);
+            } else {
+                robot.hanger.motorHanger.setPower(0);
+            }
+
+            robot.drive.update();
+
+            poseEstimate = robot.drive.getPoseEstimate();
+
+            double backboardMultiplier = 1;
+//            if(poseEstimate.getY())
+            robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
+
+
+            /** TELEMETRY **/
+
+            telemetry.addData("AutoMode: ", autoMode);
+            telemetry.addData("Slide ticks: ", robot.outtake.motorGlisiera.getCurrentPosition());
+            telemetry.addData("Sweeper power: ", robot.intake.motorSweeper.getPower());
+            telemetry.addData("Servopos: ", pos);
+            telemetry.addData("senzorDistanta1: ", robot.outtake.senzorDistanta1.getDistance(DistanceUnit.CM));
+            telemetry.addData("senzorDistanta2: ", robot.outtake.senzorDistanta2.getDistance(DistanceUnit.CM));
+
+            if (robot.outtake.pixelStanga() && robot.outtake.pixelDreapta()) {
+                telemetry.addLine("Both Pixels engaged!");
+            } else if (robot.outtake.pixelStanga()) {
+                telemetry.addLine("Left Pixel engaged!");
+            } else if (robot.outtake.pixelDreapta()) {
+                telemetry.addLine("Right Pixel engaged!");
+            }
+
+//            robot.camera.telemetryAprilTag(telemetry);
+
+            telemetry.addData("x: ", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("Heading: ", poseEstimate.getHeading());
+
+            telemetry.update();
         }
     }
+}
 

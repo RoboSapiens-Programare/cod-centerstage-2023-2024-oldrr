@@ -34,9 +34,14 @@ package org.firstinspires.ftc.teamcode.drive.opmodeAuton;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
+import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThread;
+import org.firstinspires.ftc.teamcode.drive.vision.PiramidaAlbastru;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.util.PoseStorage;
 
 
 /**
@@ -55,35 +60,78 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "Autonomie roadrunner parcare albastru", group="autonomous")
 
 public class Autonomiealbastruaproape extends LinearOpMode {
-
-  // Declare OpMode members.
+//    Declare OpMode members.
 //    private ElapsedTime runtime = new ElapsedTime();
-  private MecanumRobot robot = null;
-  public void runOpMode() {
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
-    robot = new MecanumRobot(hardwareMap);
+    private MecanumRobot robot = null;
+    private ElapsedTime timer;
+    public OpenCVThread openCV;
+    public ElapsedTime opencvTimer;
+    public static int MAX_MILISECONDS = 5000;
+    private PiramidaAlbastru.Location finalLocation;
 
 
+    public void initAutonomous() {
+        telemetry.addData(">", "Initializing...");
+        telemetry.update();
+        robot = new MecanumRobot(hardwareMap);
 
-    telemetry.setMsTransmissionInterval(50);
+        openCV = new OpenCVThread(hardwareMap);
+        finalLocation = PiramidaAlbastru.Location.RIGHT;
 
-    /*
-     * The INIT-loop:
-     * This REPLACES waitForStart!
-     */
+        openCV.start();
 
-    while (!isStarted() && !isStopRequested()) {
+        timer = new ElapsedTime();
+        telemetry.addData("has initialised", "yes");
+        telemetry.update();
+        while (robot.isInitialize() && opModeIsActive()) {
+            idle();
+        }
 
+        telemetry.addData(">", "Initialized");
+        telemetry.update();
     }
 
-    if (isStopRequested()) return;
+    @Override
+    public void runOpMode() throws InterruptedException {
+        initAutonomous();
 
-    while (opModeIsActive()) {
-        robot.outtake.inchideCuva();
-        Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
-        robot.drive.setPoseEstimate(start);
-        TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+        opencvTimer = new ElapsedTime();
+        opencvTimer.startTime();
+        timer.startTime();
+
+        while (opencvTimer.milliseconds() < MAX_MILISECONDS) {
+            telemetry.addData("Location: ", openCV.getLocation());
+            telemetry.update();
+            finalLocation = openCV.getLocation();
+        }
+
+//        try {
+//            openCV.finalize();
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        }
+
+        telemetry.setMsTransmissionInterval(50);
+
+
+        /*
+         * The INIT-loop:
+         * This REPLACES waitForStart!
+         */
+
+        while (!isStarted() && !isStopRequested()) {
+
+        }
+
+        if (isStopRequested()) return;
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            robot.outtake.inchideCuva();
+            Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
+            robot.drive.setPoseEstimate(start);
+            TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                 .forward(24)
                 .turn(Math.toRadians(-90))
                 .back(32)
@@ -108,13 +156,14 @@ public class Autonomiealbastruaproape extends LinearOpMode {
                 .strafeRight(24)
                 .back(17)
                 .build();
-        robot.drive.followTrajectorySequence(myTrajectory1);
-        sleep(30000);
-      }
+            robot.drive.followTrajectorySequence(myTrajectory1);
+            sleep(30000);
+        }
 
+        PoseStorage.currentPose = robot.drive.getPoseEstimate();
 
-      stop();
-      //            telemetry.addData("Status", "Run Time: " + runtime.toString());
-      telemetry.update();
+        stop();
+//        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.update();
     }
-  }
+}

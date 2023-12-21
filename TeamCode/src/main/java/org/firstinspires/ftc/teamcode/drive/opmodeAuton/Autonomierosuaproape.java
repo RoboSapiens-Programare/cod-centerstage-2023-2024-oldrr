@@ -40,6 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.util.PoseStorage;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -65,34 +66,32 @@ import java.util.ArrayList;
 
 public class Autonomierosuaproape extends LinearOpMode {
 
-  // Declare OpMode members.
+//    Declare OpMode members.
 //    private ElapsedTime runtime = new ElapsedTime();
-  private MecanumRobot robot = null;
-  public void runOpMode() {
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
-    robot = new MecanumRobot(hardwareMap);
+    private MecanumRobot robot = null;
+    public void runOpMode() {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+        robot = new MecanumRobot(hardwareMap);
 
+        telemetry.setMsTransmissionInterval(50);
 
+        /*
+         * The INIT-loop:
+         * This REPLACES waitForStart!
+         */
 
-    telemetry.setMsTransmissionInterval(50);
+        while (!isStarted() && !isStopRequested()) {
 
-    /*
-     * The INIT-loop:
-     * This REPLACES waitForStart!
-     */
+        }
 
-    while (!isStarted() && !isStopRequested()) {
+        if (isStopRequested()) return;
 
-    }
-
-    if (isStopRequested()) return;
-
-    while (opModeIsActive()) {
-        robot.outtake.inchideCuva();
-        Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
-        robot.drive.setPoseEstimate(start);
-        TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+        while (opModeIsActive()) {
+            robot.outtake.inchideCuva();
+            Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
+            robot.drive.setPoseEstimate(start);
+            TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                 .forward(24)
                 .turn(Math.toRadians(90))
                 .back(32)
@@ -117,13 +116,14 @@ public class Autonomierosuaproape extends LinearOpMode {
                 .strafeLeft(24)
                 .back(17)
                 .build();
-        robot.drive.followTrajectorySequence(myTrajectory1);
-        sleep(30000);
-      }
+            robot.drive.followTrajectorySequence(myTrajectory1);
+            sleep(30000);
+        }
 
+        PoseStorage.currentPose = robot.drive.getPoseEstimate();
 
-      stop();
-      //            telemetry.addData("Status", "Run Time: " + runtime.toString());
-      telemetry.update();
+        stop();
+//        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.update();
     }
-  }
+}
