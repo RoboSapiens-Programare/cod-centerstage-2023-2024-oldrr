@@ -34,11 +34,10 @@ package org.firstinspires.ftc.teamcode.drive.opmodeAuton;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
-import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThread;
+import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThreadAlbastru;
 import org.firstinspires.ftc.teamcode.drive.vision.PiramidaAlbastru;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.PoseStorage;
@@ -64,9 +63,9 @@ public class Autonomiealbastruaproape extends LinearOpMode {
 //    private ElapsedTime runtime = new ElapsedTime();
     private MecanumRobot robot = null;
     private ElapsedTime timer;
-    public OpenCVThread openCV;
+    public OpenCVThreadAlbastru openCV;
     public ElapsedTime opencvTimer;
-    public static int MAX_MILISECONDS = 5000;
+    public static int MAX_MILISECONDS = 5000000;
     private PiramidaAlbastru.Location finalLocation;
 
 
@@ -75,7 +74,7 @@ public class Autonomiealbastruaproape extends LinearOpMode {
         telemetry.update();
         robot = new MecanumRobot(hardwareMap);
 
-        openCV = new OpenCVThread(hardwareMap);
+        openCV = new OpenCVThreadAlbastru(hardwareMap);
         finalLocation = PiramidaAlbastru.Location.RIGHT;
 
         openCV.start();

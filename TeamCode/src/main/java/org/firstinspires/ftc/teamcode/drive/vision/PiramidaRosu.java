@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive.vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -10,7 +8,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class PiramidaAlbastru extends OpenCvPipeline {
+public class PiramidaRosu extends OpenCvPipeline {
     //Telemetry telemetry;
     Mat mat = new Mat();
 
@@ -26,7 +24,7 @@ public class PiramidaAlbastru extends OpenCvPipeline {
         RIGHT
     }
 
-    private Location location = Location.RIGHT;
+    private PiramidaAlbastru.Location location = PiramidaAlbastru.Location.RIGHT;
 
     //TODO de gasit punctele pentru dreptunghiuri
     static final Rect LEFT_ROI = new Rect(
@@ -43,6 +41,7 @@ public class PiramidaAlbastru extends OpenCvPipeline {
             new Point (840, 240),
             new Point(1080, 480)
     );
+
     @Override
     public Mat processFrame(Mat input){
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
@@ -81,7 +80,7 @@ public class PiramidaAlbastru extends OpenCvPipeline {
         boolean propCenter = rightValue > PERCENT_COLOR_THRESHOLD;
 
         if(propLeft) {
-            location = Location.LEFT;
+            location = PiramidaAlbastru.Location.LEFT;
             //telemetry.addData("Duck Location", "left");
         }
 //            else if(duckCenter) {
@@ -89,11 +88,11 @@ public class PiramidaAlbastru extends OpenCvPipeline {
 //                //telemetry.addData("Duck Location", "center");
 //            }
         else if(propCenter) {
-            location = Location.CENTER;
+            location = PiramidaAlbastru.Location.CENTER;
             //telemetry.addData("Duck Location", "right");
         }
         else{
-            location = Location.RIGHT;
+            location = PiramidaAlbastru.Location.RIGHT;
         }
         //telemetry.update();
 
@@ -102,13 +101,13 @@ public class PiramidaAlbastru extends OpenCvPipeline {
         Scalar notRata = new Scalar(255, 0, 0);
         Scalar rata = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, LEFT_ROI, location == Location.LEFT? rata:notRata);
-        Imgproc.rectangle(mat, CENTER_ROI, location == Location.CENTER? rata:notRata);
-        Imgproc.rectangle(mat, RIGHT_ROI, location == Location.RIGHT? rata:notRata);
+        Imgproc.rectangle(mat, LEFT_ROI, location == PiramidaAlbastru.Location.LEFT? rata:notRata);
+        Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaAlbastru.Location.CENTER? rata:notRata);
+        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaAlbastru.Location.RIGHT? rata:notRata);
 
         return input;
     }
-    public Location getLocation(){
+    public PiramidaAlbastru.Location getLocation(){
         return location;
     }
 }
