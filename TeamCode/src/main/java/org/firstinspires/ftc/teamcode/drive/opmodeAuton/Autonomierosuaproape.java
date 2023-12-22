@@ -39,6 +39,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
+import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThreadAlbastru;
+import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThreadRosu;
+import org.firstinspires.ftc.teamcode.drive.vision.PiramidaAlbastru;
+import org.firstinspires.ftc.teamcode.drive.vision.PiramidaRosu;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.PoseStorage;
 import org.openftc.apriltag.AprilTagDetection;
@@ -68,11 +72,46 @@ public class Autonomierosuaproape extends LinearOpMode {
 
 //    Declare OpMode members.
 //    private ElapsedTime runtime = new ElapsedTime();
+
     private MecanumRobot robot = null;
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
+    private ElapsedTime timer;
+    public OpenCVThreadRosu openCV;
+    public ElapsedTime opencvTimer;
+    public static int MAX_MILISECONDS = 5000000;
+    private PiramidaRosu.Location finalLocation;
+
+    public void initAutonomous() {
+        telemetry.addData(">", "Initializing...");
         telemetry.update();
         robot = new MecanumRobot(hardwareMap);
+
+        openCV = new OpenCVThreadRosu(hardwareMap);
+        finalLocation = PiramidaRosu.Location.RIGHT;
+
+        openCV.start();
+
+        timer = new ElapsedTime();
+        telemetry.addData("has initialised", "yes");
+        telemetry.update();
+        while (robot.isInitialize() && opModeIsActive()) {
+            idle();
+        }
+
+        telemetry.addData(">", "Initialized");
+        telemetry.update();
+    }
+    public void runOpMode() {
+        initAutonomous();
+
+        opencvTimer = new ElapsedTime();
+        opencvTimer.startTime();
+        timer.startTime();
+
+        while (opencvTimer.milliseconds() < MAX_MILISECONDS) {
+            telemetry.addData("Location: ", openCV.getLocation());
+            telemetry.update();
+            finalLocation = openCV.getLocation();
+        }
 
         telemetry.setMsTransmissionInterval(50);
 

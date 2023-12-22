@@ -12,8 +12,8 @@ public class PiramidaRosu extends OpenCvPipeline {
     //Telemetry telemetry;
     Mat mat = new Mat();
 
-    private final Scalar LOW_BLUE = new Scalar(110, 50, 50);
-    private final Scalar HIGH_BLUE = new Scalar(130, 255, 255);
+    private final Scalar LOW_BLUE = new Scalar(5,255,255);
+    private final Scalar HIGH_BLUE = new Scalar(180,255,255);
 
     //TODO de aflat valoarea minima de galben dintr-un dreptunghi, fara ratoi
     private static final double PERCENT_COLOR_THRESHOLD = 0.007;
@@ -24,7 +24,7 @@ public class PiramidaRosu extends OpenCvPipeline {
         RIGHT
     }
 
-    private PiramidaAlbastru.Location location = PiramidaAlbastru.Location.RIGHT;
+    private PiramidaRosu.Location location = PiramidaRosu.Location.RIGHT;
 
     //TODO de gasit punctele pentru dreptunghiuri
     static final Rect LEFT_ROI = new Rect(
@@ -80,7 +80,7 @@ public class PiramidaRosu extends OpenCvPipeline {
         boolean propCenter = rightValue > PERCENT_COLOR_THRESHOLD;
 
         if(propLeft) {
-            location = PiramidaAlbastru.Location.LEFT;
+            location = PiramidaRosu.Location.LEFT;
             //telemetry.addData("Duck Location", "left");
         }
 //            else if(duckCenter) {
@@ -88,11 +88,11 @@ public class PiramidaRosu extends OpenCvPipeline {
 //                //telemetry.addData("Duck Location", "center");
 //            }
         else if(propCenter) {
-            location = PiramidaAlbastru.Location.CENTER;
+            location = PiramidaRosu.Location.CENTER;
             //telemetry.addData("Duck Location", "right");
         }
         else{
-            location = PiramidaAlbastru.Location.RIGHT;
+            location = PiramidaRosu.Location.RIGHT;
         }
         //telemetry.update();
 
@@ -101,13 +101,13 @@ public class PiramidaRosu extends OpenCvPipeline {
         Scalar notRata = new Scalar(255, 0, 0);
         Scalar rata = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, LEFT_ROI, location == PiramidaAlbastru.Location.LEFT? rata:notRata);
-        Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaAlbastru.Location.CENTER? rata:notRata);
-        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaAlbastru.Location.RIGHT? rata:notRata);
+        Imgproc.rectangle(mat, LEFT_ROI, location == PiramidaRosu.Location.LEFT? rata:notRata);
+        Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaRosu.Location.CENTER? rata:notRata);
+        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaRosu.Location.RIGHT? rata:notRata);
 
         return input;
     }
-    public PiramidaAlbastru.Location getLocation(){
+    public Location getLocationRed(){
         return location;
     }
 }
