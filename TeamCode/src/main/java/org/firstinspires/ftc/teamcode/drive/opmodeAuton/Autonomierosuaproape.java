@@ -66,7 +66,7 @@ import java.util.ArrayList;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Autonomie roadrunner parcare", group="autonomous")
+@Autonomous(name = "Autonomie roadrunner parcare rosu", group="autonomous")
 
 public class Autonomierosuaproape extends LinearOpMode {
 

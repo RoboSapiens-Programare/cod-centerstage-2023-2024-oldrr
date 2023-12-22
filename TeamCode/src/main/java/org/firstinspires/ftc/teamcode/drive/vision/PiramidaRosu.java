@@ -12,11 +12,11 @@ public class PiramidaRosu extends OpenCvPipeline {
     //Telemetry telemetry;
     Mat mat = new Mat();
 
-    private final Scalar LOW_BLUE = new Scalar(5,255,255);
-    private final Scalar HIGH_BLUE = new Scalar(180,255,255);
+    private final Scalar LOW_BLUE = new Scalar(0, 50, 20);
+    private final Scalar HIGH_BLUE = new Scalar(0, 255, 255);
 
     //TODO de aflat valoarea minima de galben dintr-un dreptunghi, fara ratoi
-    private static final double PERCENT_COLOR_THRESHOLD = 0.007;
+    private static final double PERCENT_COLOR_THRESHOLD = 0.003;
 
     public enum Location {
         LEFT,
