@@ -130,6 +130,114 @@ public class Autonomiealbastruaproape extends LinearOpMode {
             robot.outtake.inchideCuva();
             Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
             robot.drive.setPoseEstimate(start);
+            if(finalLocation == PiramidaAlbastru.Location.LEFT){
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .forward(24)
+                        .turn(Math.toRadians(90))
+                        .addTemporalMarker(() -> {
+                            robot.intake.activateConveyor(1);
+                            sleep(2000);
+                            robot.intake.stopConveyor();
+                        })
+                        .back(2)
+                        .turn(Math.toRadians(-180))
+                        .back(36)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.manualLevel(700);
+                            robot.outtake.inchideCuva();
+                            sleep(1000);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(5)
+                        .strafeRight(6)
+                        .waitSeconds(0.3)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(1)
+                        .forward(7)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            robot.outtake.manualLevel(-100);
+                        })
+                        .strafeRight(18)
+                        .back(17)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
+            if(finalLocation == PiramidaAlbastru.Location.CENTER){
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .forward(24)
+                        .addTemporalMarker(() -> {
+                            robot.intake.activateConveyor(1);
+                            sleep(2000);
+                            robot.intake.stopConveyor();
+                        })
+                        .back(2)
+                        .turn(Math.toRadians(-90))
+                        .back(34)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.manualLevel(700);
+                            robot.outtake.inchideCuva();
+                            sleep(1000);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(5)
+                        .strafeRight(6)
+                        .waitSeconds(0.3)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(1)
+                        .forward(7)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            robot.outtake.manualLevel(-100);
+                        })
+                        .strafeRight(24)
+                        .back(17)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
+            else {
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .forward(24)
+                        .turn(Math.toRadians(-90))
+                        .addTemporalMarker(() -> {
+                            robot.intake.activateConveyor(1);
+                            sleep(2000);
+                            robot.intake.stopConveyor();
+                        })
+                        .back(36)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.manualLevel(700);
+                            robot.outtake.inchideCuva();
+                            sleep(1000);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(5)
+                        .strafeLeft(6)
+                        .waitSeconds(0.3)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(1)
+                        .forward(7)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            robot.outtake.manualLevel(-100);
+                        })
+                        .strafeRight(24)
+                        .back(17)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
             TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                 .forward(24)
                 .turn(Math.toRadians(-90))
