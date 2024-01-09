@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode.drive.opmodeAuton;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -74,23 +75,22 @@ public class Autonomierosuaproape extends LinearOpMode {
 //    private ElapsedTime runtime = new ElapsedTime();
 
     private MecanumRobot robot = null;
-    private ElapsedTime timer;
     public OpenCVThreadRosu openCV;
     public ElapsedTime opencvTimer;
-    public static int MAX_MILISECONDS = 5000000;
+    public static int MAX_MILISECONDS = 5000;
     private PiramidaRosu.Location finalLocation;
 
-    public void initAutonomous() {
+
+    public void runOpMode() {
         telemetry.addData(">", "Initializing...");
         telemetry.update();
         robot = new MecanumRobot(hardwareMap);
 
         openCV = new OpenCVThreadRosu(hardwareMap);
-        finalLocation = PiramidaRosu.Location.RIGHT;
+        finalLocation = PiramidaRosu.Location.LEFT;
 
         openCV.start();
 
-        timer = new ElapsedTime();
         telemetry.addData("has initialised", "yes");
         telemetry.update();
         while (robot.isInitialize() && opModeIsActive()) {
@@ -99,18 +99,14 @@ public class Autonomierosuaproape extends LinearOpMode {
 
         telemetry.addData(">", "Initialized");
         telemetry.update();
-    }
-    public void runOpMode() {
-        initAutonomous();
 
         opencvTimer = new ElapsedTime();
         opencvTimer.startTime();
-        timer.startTime();
 
-        while (opencvTimer.milliseconds() < MAX_MILISECONDS) {
-            telemetry.addData("Location: ", openCV.getLocation());
-            telemetry.update();
+        while (!isStarted()) {
             finalLocation = openCV.getLocation();
+            telemetry.addData("Location: ", finalLocation);
+            telemetry.update();
         }
 
         telemetry.setMsTransmissionInterval(50);
@@ -120,48 +116,115 @@ public class Autonomierosuaproape extends LinearOpMode {
          * This REPLACES waitForStart!
          */
 
-        while (!isStarted() && !isStopRequested()) {
 
-        }
-
-        if (isStopRequested()) return;
 
         while (opModeIsActive()) {
             robot.outtake.inchideCuva();
-            Pose2d start = new Pose2d(35, -60, Math.toRadians(90));
+            Pose2d start = new Pose2d(12, -60, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
-            TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
-                .forward(24)
-                .turn(Math.toRadians(90))
-                .back(32)
-                .addTemporalMarker(() -> {
-                    robot.outtake.manualLevel(1230);
-                    robot.outtake.inchideCuva();
-                    sleep(1000);
-                    robot.outtake.ridicaCuva();
-                })
-                .back(5)
-                .waitSeconds(0.3)
-                .addTemporalMarker(() -> {
-                    robot.outtake.deschideCuva();
-                })
-                .waitSeconds(1)
-                .forward(7)
-                .addTemporalMarker(() -> {
-                    robot.outtake.inchideCuva();
-                    robot.outtake.coboaraCuva();
-                    robot.outtake.manualLevel(-100);
-                })
-                .strafeLeft(24)
-                .back(17)
-                .build();
-            robot.drive.followTrajectorySequence(myTrajectory1);
-            sleep(30000);
+            if(finalLocation == PiramidaRosu.Location.RIGHT){
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .setReversed(true)
+                        .splineToConstantHeading(new Vector2d(22, -40), Math.toRadians(-90))
+
+//                        .back(4)
+//                        .forward(20)
+//                        .turn(Math.toRadians(-90))
+//                        .addTemporalMarker(() -> {
+//                            robot.intake.activateConveyor(1);
+//                            sleep(2000);
+//                            robot.intake.stopConveyor();
+//                        })
+//                        .back(2)
+//                        .turn(Math.toRadians(-180))
+//                        .back(36)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.manualLevel(700);
+//                            robot.outtake.inchideCuva();
+//                            sleep(1000);
+//                            robot.outtake.ridicaCuva();
+//                        })
+//                        .back(5)
+//                        .strafeLeft(6)
+//                        .waitSeconds(0.3)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.deschideCuva();
+//                        })
+//                        .waitSeconds(1)
+//                        .forward(7)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.inchideCuva();
+//                            robot.outtake.coboaraCuva();
+//                            robot.outtake.manualLevel(-100);
+//                        })
+//                        .strafeRight(24)
+//                        .back(17)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
+            else if(finalLocation == PiramidaRosu.Location.CENTER){
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .back(28)
+                        .forward(4)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
+            else {
+//                TrajectorySequence myTrajectory0 = robot.drive.trajectorySequenceBuilder(start)
+//                        .lineTo(new Vector2d(12, -50))
+//                        .build();
+//                sleep(3000);
+//                robot.drive.followTrajectorySequence(myTrajectory0);
+//                start = robot.drive.getPoseEstimate();
+                TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
+                        .setReversed(true)
+                        //.back(12)
+                        .splineToLinearHeading(new Pose2d(9, -36, Math.toRadians(-30)), Math.toRadians(-60))
+//                        .back(4)
+//                        .turn(180)
+//                        .forward(20)
+//                        .turn(Math.toRadians(90))
+//                        .addTemporalMarker(() -> {
+//                            robot.intake.activateConveyor(1);
+//                            sleep(2000);
+//                            robot.intake.stopConveyor();
+//                        })
+//                        .turn(180)
+//                        .back(36)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.manualLevel(700);
+//                            robot.outtake.inchideCuva();
+//                            sleep(1000);
+//                            robot.outtake.ridicaCuva();
+//                        })
+//                        .back(5)
+//                        .strafeRight(6)
+//                        .waitSeconds(0.3)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.deschideCuva();
+//                        })
+//                        .waitSeconds(1)
+//                        .forward(7)
+//                        .addTemporalMarker(() -> {
+//                            robot.outtake.inchideCuva();
+//                            robot.outtake.coboaraCuva();
+//                            robot.outtake.manualLevel(-100);
+//                        })
+//                        .strafeRight(18)
+//                        .back(17)
+                        .build();
+                robot.drive.followTrajectorySequence(myTrajectory1);
+                sleep(30000);
+            }
+            if (isStopRequested()) {
+                stop();
+            }
         }
 
         PoseStorage.currentPose = robot.drive.getPoseEstimate();
 
-        stop();
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.update();
     }

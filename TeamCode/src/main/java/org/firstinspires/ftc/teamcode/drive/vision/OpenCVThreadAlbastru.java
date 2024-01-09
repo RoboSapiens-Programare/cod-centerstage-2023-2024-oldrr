@@ -55,7 +55,7 @@ public class OpenCVThreadAlbastru extends Thread{
     @Override
     public void run() {
         while(this.isAlive()){
-            this.location = pipeline.getLocation();
+            this.location = pipeline.getLocationBlue();
         }
 
 
