@@ -185,17 +185,17 @@ public class Autonomierosuaproape extends LinearOpMode {
                         .setReversed(true)
                         //.back(12)
                         .splineToLinearHeading(new Pose2d(9, -36, Math.toRadians(-30)), Math.toRadians(-60))
-                        .lineToSplineHeading(new Pose2d(30,-25.5, Math.toRadians(-180)))
+                        .lineToSplineHeading(new Pose2d(30,-26.5, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(650);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(17)
-                        .waitSeconds(0.15)
+                        .back(18.5)
+                        .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
-                        .waitSeconds(0.1)
+                        .waitSeconds(0.2)
                         .forward(4)
                         .strafeRight(12)
                         .addTemporalMarker(() -> {
