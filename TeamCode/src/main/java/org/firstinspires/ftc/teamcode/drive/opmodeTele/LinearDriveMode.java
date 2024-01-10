@@ -19,9 +19,9 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class LinearDriveMode extends LinearOpMode {
     private MecanumRobot robot = null;
-    boolean subZero = false, autoMode = false;
+    boolean subZero = false, autoMode = true;
     private double pos = 0.3;
-    private ElapsedTime timer = new ElapsedTime(250);
+    private ElapsedTime timer;
     ColorSensor color;
     boolean changed = false; //Outside of loop()
     Pose2d poseEstimate;
@@ -90,7 +90,7 @@ public class LinearDriveMode extends LinearOpMode {
                 if (gamepad2.square) {
                     robot.outtake.inchideCuva();
                     robot.outtake.manualLevel(700);
-                    if (robot.outtake.motorGlisiera.getCurrentPosition() <= 1170) {
+                    if (robot.outtake.motorGlisiera.getCurrentPosition() >= 400) {
                         robot.outtake.ridicaCuva();
                         autoMode = false;
                     }
@@ -98,8 +98,13 @@ public class LinearDriveMode extends LinearOpMode {
                 if (gamepad2.triangle) {
                     robot.outtake.inchideCuva();
                     robot.outtake.coboaraCuva();
-                    robot.outtake.manualLevel(-100);
-                    if (robot.outtake.motorGlisiera.getCurrentPosition() <= 15) {
+                    timer = new ElapsedTime();
+                    timer.startTime();
+                    if(timer.milliseconds() > 200) {
+                        robot.outtake.manualLevel(-50);
+                        timer.reset();
+                    }
+                    if (robot.outtake.motorGlisiera.getCurrentPosition() <= 50) {
                         robot.outtake.deschideCuva();
                     }
                     if (!robot.outtake.motorGlisiera.isBusy()) {
@@ -112,9 +117,14 @@ public class LinearDriveMode extends LinearOpMode {
                 if (gamepad2.triangle) {
                     robot.outtake.inchideCuva();
                     robot.outtake.coboaraCuva();
-                    robot.outtake.manualLevel(-120);
+                    timer = new ElapsedTime();
+                    timer.startTime();
+                    if(timer.milliseconds() > 200) {
+                        robot.outtake.manualLevel(-50);
+                        timer.reset();
+                    }
                     //autoMode = true;
-                    if (robot.outtake.motorGlisiera.getCurrentPosition() <= 15) {
+                    if (robot.outtake.motorGlisiera.getCurrentPosition() <= 50) {
                         robot.outtake.deschideCuva();
                     }
                     if (!robot.outtake.motorGlisiera.isBusy()) autoMode = true;
@@ -122,8 +132,11 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if (gamepad2.square) {
                     robot.outtake.inchideCuva();
-                    robot.outtake.manualLevel(720);
-                    robot.outtake.ridicaCuva();
+                    robot.outtake.manualLevel(700);
+                    if (robot.outtake.motorGlisiera.getCurrentPosition() >= 400) {
+                        robot.outtake.ridicaCuva();
+                        autoMode = false;
+                    }
                 }
 
                 if (gamepad2.left_bumper) {
@@ -191,10 +204,10 @@ public class LinearDriveMode extends LinearOpMode {
                 robot.intake.stopConveyor();
             }
 
-            if (gamepad1.right_trigger >= 0.1) {
-                robot.hanger.motorHanger.setPower(gamepad1.right_trigger);
-            } else if (gamepad1.left_trigger >= 0.1) {
-                robot.hanger.motorHanger.setPower(-gamepad1.left_trigger);
+            if (gamepad1.cross) {
+                robot.hanger.motorHanger.setPower(1);
+            } else if (gamepad1.circle) {
+                robot.hanger.motorHanger.setPower(-1);
             } else {
                 robot.hanger.motorHanger.setPower(0);
             }

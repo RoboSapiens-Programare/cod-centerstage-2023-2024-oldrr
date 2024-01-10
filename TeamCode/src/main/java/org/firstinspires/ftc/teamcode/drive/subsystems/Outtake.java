@@ -106,13 +106,13 @@ public class Outtake {
 
 
     public boolean pixelStanga(){
-        if(senzorDistanta1.getDistance(DistanceUnit.CM) <= 3.5){
+        if(senzorDistanta1.getDistance(DistanceUnit.CM) <= 3.8){
             return true;
         }
         else return false;
     }
     public boolean pixelDreapta(){
-        if(senzorDistanta2.getDistance(DistanceUnit.CM) <= 3.5){
+        if(senzorDistanta2.getDistance(DistanceUnit.CM) <= 3.8){
             return true;
         }
         else return false;

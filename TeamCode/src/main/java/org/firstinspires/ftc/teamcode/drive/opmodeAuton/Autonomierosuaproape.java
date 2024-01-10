@@ -31,27 +31,17 @@ package org.firstinspires.ftc.teamcode.drive.opmodeAuton;
 
 
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
-import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThreadAlbastru;
 import org.firstinspires.ftc.teamcode.drive.vision.OpenCVThreadRosu;
-import org.firstinspires.ftc.teamcode.drive.vision.PiramidaAlbastru;
 import org.firstinspires.ftc.teamcode.drive.vision.PiramidaRosu;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.PoseStorage;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import java.util.ArrayList;
 
 
 /**
@@ -119,46 +109,38 @@ public class Autonomierosuaproape extends LinearOpMode {
 
 
         while (opModeIsActive()) {
+            //modifica asta daca alianta e mai rapida ca noi ca suntem niste sclavi
+            sleep(0);
             robot.outtake.inchideCuva();
             Pose2d start = new Pose2d(12, -60, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosu.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
-                        .splineToConstantHeading(new Vector2d(22, -40), Math.toRadians(-90))
-
-//                        .back(4)
-//                        .forward(20)
-//                        .turn(Math.toRadians(-90))
-//                        .addTemporalMarker(() -> {
-//                            robot.intake.activateConveyor(1);
-//                            sleep(2000);
-//                            robot.intake.stopConveyor();
-//                        })
-//                        .back(2)
-//                        .turn(Math.toRadians(-180))
-//                        .back(36)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.manualLevel(700);
-//                            robot.outtake.inchideCuva();
-//                            sleep(1000);
-//                            robot.outtake.ridicaCuva();
-//                        })
-//                        .back(5)
-//                        .strafeLeft(6)
-//                        .waitSeconds(0.3)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.deschideCuva();
-//                        })
-//                        .waitSeconds(1)
-//                        .forward(7)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.inchideCuva();
-//                            robot.outtake.coboaraCuva();
-//                            robot.outtake.manualLevel(-100);
-//                        })
-//                        .strafeRight(24)
-//                        .back(17)
+                        .splineToConstantHeading(new Vector2d(21, -40), Math.toRadians(90))
+                        .back(4)
+                        .forward(12)
+                        .splineToLinearHeading(new Pose2d(43,-39, Math.toRadians(-180)), Math.toRadians(90))
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(650);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(4.5)
+                        .waitSeconds(0.2)
+                        .addTemporalMarker(() ->{
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.2)
+                        .forward(4)
+                        .strafeRight(24)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            sleep(200);
+                            robot.outtake.manualLevel(-50);
+                            sleep(200);
+                            robot.outtake.deschideCuva();
+                        })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
                 sleep(30000);
@@ -167,6 +149,27 @@ public class Autonomierosuaproape extends LinearOpMode {
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .back(28)
                         .forward(4)
+                        .lineToSplineHeading(new Pose2d(30,-34, Math.toRadians(-180)))
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(650);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(17)
+                        .waitSeconds(0.15)
+                        .addTemporalMarker(() ->{
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.1)
+                        .forward(4)
+                        .strafeRight(24)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            sleep(200);
+                            robot.outtake.manualLevel(-50);
+                            sleep(200);
+                            robot.outtake.deschideCuva();
+                        })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
                 sleep(30000);
@@ -182,6 +185,29 @@ public class Autonomierosuaproape extends LinearOpMode {
                         .setReversed(true)
                         //.back(12)
                         .splineToLinearHeading(new Pose2d(9, -36, Math.toRadians(-30)), Math.toRadians(-60))
+                        .lineToSplineHeading(new Pose2d(30,-25.5, Math.toRadians(-180)))
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(650);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(17)
+                        .waitSeconds(0.15)
+                        .addTemporalMarker(() ->{
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.1)
+                        .forward(4)
+                        .strafeRight(12)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                            robot.outtake.coboaraCuva();
+                            sleep(200);
+                            robot.outtake.manualLevel(-50);
+                            sleep(200);
+                            robot.outtake.deschideCuva();
+                        })
+
+
 //                        .back(4)
 //                        .turn(180)
 //                        .forward(20)

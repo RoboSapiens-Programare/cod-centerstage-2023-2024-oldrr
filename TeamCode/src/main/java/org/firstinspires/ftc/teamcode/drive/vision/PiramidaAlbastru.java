@@ -16,7 +16,7 @@ public class PiramidaAlbastru extends OpenCvPipeline {
     private final Scalar HIGH_BLUE = new Scalar(130, 255, 255);
 
     //TODO de aflat valoarea minima de galben dintr-un dreptunghi, fara ratoi
-    private static final double PERCENT_COLOR_THRESHOLD = 0.003;
+    private static final double PERCENT_COLOR_THRESHOLD = 0.007;
 
     public enum Location {
         LEFT,
@@ -27,14 +27,14 @@ public class PiramidaAlbastru extends OpenCvPipeline {
     private PiramidaAlbastru.Location location = PiramidaAlbastru.Location.RIGHT;
 
     //TODO de gasit punctele pentru dreptunghiuri
-    static final Rect CENTER_ROI = new Rect(
-            new Point(150, 360),
-            new Point(800, 720)
+    static final Rect LEFT_ROI = new Rect(
+            new Point(0, 360),
+            new Point(500, 540)
     );
 
-    static final Rect RIGHT_ROI = new Rect(
-            new Point (800, 360),
-            new Point(1280, 720)
+    static final Rect CENTER_ROI = new Rect(
+            new Point (500, 360),
+            new Point(1000, 720)
     );
 
     @Override
@@ -45,23 +45,23 @@ public class PiramidaAlbastru extends OpenCvPipeline {
 
         //dreptunghiuri regiuni
         final Scalar BLUE = new Scalar(0, 0, 255);
-        Imgproc.rectangle(input, CENTER_ROI, BLUE, 2);
+        Imgproc.rectangle(input, LEFT_ROI, BLUE, 2);
 //            Imgproc.rectangle(input, CENTER_ROI, BLUE, 2);
-        Imgproc.rectangle(input, RIGHT_ROI, BLUE, 2);
+        Imgproc.rectangle(input, CENTER_ROI, BLUE, 2);
 
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat center = mat.submat(CENTER_ROI);
+        Mat left = mat.submat(LEFT_ROI);
 //            Mat center = mat.submat(CENTER_ROI);
-        Mat right = mat.submat(RIGHT_ROI);
+        Mat center = mat.submat(CENTER_ROI);
 
-        double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
+        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 255;
 //            double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
-        double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
+        double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
 
-        center.release();
+        left.release();
 //            center.release();
-        right.release();
+        center.release();
 
             /*telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]);
             telemetry.addData("Center raw value", (int) Core.sumElems(left).val[0]);
@@ -70,9 +70,9 @@ public class PiramidaAlbastru extends OpenCvPipeline {
             //telemetry.addData("Center percentage", Math.round(centerValue * 100) + "%");
             telemetry.addData("Right percentage", Math.round(rightValue * 100) + "%");*/
 
-        boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
+        boolean propLeft = leftValue > PERCENT_COLOR_THRESHOLD;
 //            boolean duckCenter = centerValue > PERCENT_COLOR_THRESHOLD;
-        boolean propRight = rightValue > PERCENT_COLOR_THRESHOLD;
+        boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
 
         if(propCenter) {
             location = PiramidaAlbastru.Location.CENTER;
@@ -82,12 +82,12 @@ public class PiramidaAlbastru extends OpenCvPipeline {
 //                location = Location.CENTER;
 //                //telemetry.addData("Duck Location", "center");
 //            }
-        else if(propRight) {
-            location = PiramidaAlbastru.Location.RIGHT;
+        else if(propLeft) {
+            location = PiramidaAlbastru.Location.LEFT;
             //telemetry.addData("Duck Location", "right");
         }
         else{
-            location = PiramidaAlbastru.Location.LEFT;
+            location = PiramidaAlbastru.Location.RIGHT;
         }
         //telemetry.update();
 
@@ -96,8 +96,8 @@ public class PiramidaAlbastru extends OpenCvPipeline {
         Scalar notRata = new Scalar(255, 0, 0);
         Scalar rata = new Scalar(0, 255, 0);
 
+        Imgproc.rectangle(mat, LEFT_ROI, location == PiramidaAlbastru.Location.LEFT? rata:notRata);
         Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaAlbastru.Location.CENTER? rata:notRata);
-        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaAlbastru.Location.RIGHT? rata:notRata);
 
         return input;
     }
