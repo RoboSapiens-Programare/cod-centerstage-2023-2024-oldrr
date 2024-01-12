@@ -117,15 +117,18 @@ public class AutonomieRosuDeparte extends LinearOpMode {
             if(finalLocation == PiramidaRosu.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
-                        .splineToConstantHeading(new Vector2d(21, -40), Math.toRadians(90))
                         .back(4)
-                        .forward(12)
-                        .splineToLinearHeading(new Pose2d(43,-39, Math.toRadians(-180)), Math.toRadians(90))
+                        .strafeRight(6)
+                        .splineToLinearHeading(new Pose2d(-34,-27,Math.toRadians(-180)), Math.toRadians(20))
+                        .forward(8)
+                        .splineToLinearHeading(new Pose2d(-48,-8, Math.toRadians(-180)), Math.toRadians(-360))
+                        .back(80)
+                        .splineToConstantHeading(new Vector2d(35,-42), Math.toRadians(20))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(650);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(4.5)
+                        .back(14)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
@@ -149,16 +152,17 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
                         .back(26)
+                        .forward(2)
                         .strafeRight(4)
-                        .forward(14)
-                        .splineToLinearHeading(new Pose2d(-50,-8, Math.toRadians(-180)), Math.toRadians(20))
+                        .forward(12)
+                        .splineToLinearHeading(new Pose2d(-48,-8, Math.toRadians(-180)), Math.toRadians(20))
                         .back(75)
-                        .splineToConstantHeading(new Vector2d(35,-28), Math.toRadians(20))
+                        .splineToConstantHeading(new Vector2d(35,-35), Math.toRadians(20))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(650);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(12)
+                        .back(14)
                         .waitSeconds(0.15)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
@@ -187,14 +191,17 @@ public class AutonomieRosuDeparte extends LinearOpMode {
 //                start = robot.drive.getPoseEstimate();
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
-                        //.back(12)
-                        .splineToLinearHeading(new Pose2d(9, -36, Math.toRadians(-30)), Math.toRadians(-60))
-                        .lineToSplineHeading(new Pose2d(30,-26.5, Math.toRadians(-180)))
+                        .splineToLinearHeading(new Pose2d(-46,-35,Math.toRadians(-90)), Math.toRadians(90))
+                        .forward(24)
+                        .strafeLeft(11)
+                        .lineToConstantHeading(new Vector2d(-35,-8))
+                        .lineToLinearHeading(new Pose2d(24,-8, Math.toRadians(-180)))
+                        .splineToConstantHeading(new Vector2d(35,-28), Math.toRadians(20))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(650);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(18.5)
+                        .back(14)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
