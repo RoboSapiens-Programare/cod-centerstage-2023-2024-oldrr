@@ -57,9 +57,9 @@ import org.firstinspires.ftc.teamcode.util.PoseStorage;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Autonomie roadrunner parcare rosu", group="autonomous")
+@Autonomous(name = "Autonomie roadrunner rosu aproape", group="autonomous")
 
-public class Autonomierosuaproape extends LinearOpMode {
+public class AutonomieRosuAproape extends LinearOpMode {
 
 //    Declare OpMode members.
 //    private ElapsedTime runtime = new ElapsedTime();
@@ -154,7 +154,7 @@ public class Autonomierosuaproape extends LinearOpMode {
                             robot.outtake.manualLevel(650);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(17)
+                        .back(17.5)
                         .waitSeconds(0.15)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();

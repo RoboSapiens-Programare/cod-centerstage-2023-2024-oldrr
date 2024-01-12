@@ -68,13 +68,13 @@ public class Outtake {
     }
 
     public void ridicaCuva(){
-        servoStanga.setPosition(0.25);
-        servoDreapta.setPosition(0.25);
+        servoStanga.setPosition(0.3);
+        servoDreapta.setPosition(0.3);
     }
 
     public void coboaraCuva(){
-        servoStanga.setPosition(0);
-        servoDreapta.setPosition(0);
+        servoStanga.setPosition(0.03);
+        servoDreapta.setPosition(0.03);
     }
 
     public void setCuva(double pos){

@@ -16,7 +16,7 @@ public class PiramidaRosu extends OpenCvPipeline {
     private final Scalar HIGH_RED = new Scalar(0, 255, 255);
 
     //TODO de aflat valoarea minima de galben dintr-un dreptunghi, fara ratoi
-    private static final double PERCENT_COLOR_THRESHOLD = 0.003;
+    private static final double PERCENT_COLOR_THRESHOLD = 0.002;
 
     public enum Location {
         LEFT,
@@ -28,12 +28,12 @@ public class PiramidaRosu extends OpenCvPipeline {
 
     //TODO de gasit punctele pentru dreptunghiuri
     static final Rect CENTER_ROI = new Rect(
-            new Point(150, 360),
+            new Point(150, 300),
             new Point(800, 720)
     );
 
     static final Rect RIGHT_ROI = new Rect(
-            new Point (800, 360),
+            new Point (800, 300),
             new Point(1280, 720)
     );
 

@@ -10,10 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.robot.MecanumRobot;
-import org.firstinspires.ftc.teamcode.drive.robot.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.util.PoseStorage;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(name="MecanumDriveMode", group="Linear OpMode")
 
@@ -117,12 +114,8 @@ public class LinearDriveMode extends LinearOpMode {
                 if (gamepad2.triangle) {
                     robot.outtake.inchideCuva();
                     robot.outtake.coboaraCuva();
-                    timer = new ElapsedTime();
-                    timer.startTime();
-                    if(timer.milliseconds() > 200) {
-                        robot.outtake.manualLevel(-50);
-                        timer.reset();
-                    }
+                    sleep(200);
+                    robot.outtake.manualLevel(-50);
                     //autoMode = true;
                     if (robot.outtake.motorGlisiera.getCurrentPosition() <= 50) {
                         robot.outtake.deschideCuva();
@@ -145,6 +138,13 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if (gamepad2.right_bumper) {
                     robot.outtake.inchideCuva();
+                }
+
+                if(gamepad2.dpad_left){
+                    robot.outtake.deschideDreapta();
+                }
+                if(gamepad2.dpad_right){
+                    robot.outtake.deschideStanga();
                 }
             }
 
@@ -211,6 +211,15 @@ public class LinearDriveMode extends LinearOpMode {
             } else {
                 robot.hanger.motorHanger.setPower(0);
             }
+
+            if(gamepad1.dpad_left && pos > 0){
+                pos -= 0.01;
+            }
+            if (gamepad1.dpad_right && pos < 1) {
+                pos += 0.01;
+            }
+
+            if(gamepad1.dpad_up) robot.outtake.setCuva(pos);
 
             robot.drive.update();
 
