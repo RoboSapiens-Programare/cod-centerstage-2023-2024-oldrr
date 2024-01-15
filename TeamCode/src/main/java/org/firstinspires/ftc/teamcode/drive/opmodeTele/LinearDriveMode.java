@@ -60,28 +60,28 @@ public class LinearDriveMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             //field centric start
-            Pose2d poseEstimate = robot.drive.getPoseEstimate();
-
-            // Create a vector from the gamepad x/y inputs
-            // Then, rotate that vector by the inverse of that heading
-            Vector2d input = new Vector2d(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x
-            ).rotated(-poseEstimate.getHeading());
-
-            // Pass in the rotated input + right stick value for rotation
-            // Rotation is not part of the rotated input thus must be passed in separately
-            robot.drive.setWeightedDrivePower(
-                    new Pose2d(
-                            input.getX(),
-                            input.getY(),
-                            -gamepad1.right_stick_x
-                    )
-            );
-
-            // Update everything. Odometry. Etc.
-            robot.drive.update();
-            //field centric end
+//            Pose2d poseEstimate = robot.drive.getPoseEstimate();
+//
+//            // Create a vector from the gamepad x/y inputs
+//            // Then, rotate that vector by the inverse of that heading
+//            Vector2d input = new Vector2d(
+//                    -gamepad1.left_stick_y,
+//                    -gamepad1.left_stick_x
+//            ).rotated(-poseEstimate.getHeading());
+//
+//            // Pass in the rotated input + right stick value for rotation
+//            // Rotation is not part of the rotated input thus must be passed in separately
+//            robot.drive.setWeightedDrivePower(
+//                    new Pose2d(
+//                            input.getX(),
+//                            input.getY(),
+//                            -gamepad1.right_stick_x
+//                    )
+//            );
+//
+//            // Update everything. Odometry. Etc.
+//            robot.drive.update();
+//            //field centric end
 
 
 
@@ -269,7 +269,7 @@ public class LinearDriveMode extends LinearOpMode {
 
             double backboardMultiplier = 1;
 //            if(poseEstimate.getY())
-//            robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
+            robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
 
 
             /** TELEMETRY **/

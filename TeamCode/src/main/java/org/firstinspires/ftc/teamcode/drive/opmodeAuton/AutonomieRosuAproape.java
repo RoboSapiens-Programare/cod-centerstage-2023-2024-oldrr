@@ -112,6 +112,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
             //modifica asta daca alianta e mai rapida ca noi ca suntem niste sclavi
             sleep(0);
             robot.outtake.inchideCuva();
+            robot.intake.inchideGheara();
             Pose2d start = new Pose2d(12, -60, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosu.Location.RIGHT){
@@ -121,10 +122,12 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .back(4)
                         .forward(12)
                         .splineToLinearHeading(new Pose2d(43,-39, Math.toRadians(-180)), Math.toRadians(90))
-                        .addDisplacementMarker(() -> {
+                        .waitSeconds(0.2)
+                        .addTemporalMarker(() -> {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
                         })
+                        .waitSeconds(0.2)
                         .back(4.5)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
@@ -136,14 +139,41 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         })
                         .waitSeconds(0.2)
                         .forward(4)
-                        .strafeRight(24)
+                        .waitSeconds(0.1)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
+                        })
+                        .waitSeconds(0.2)
+                        .strafeLeft(18)
+                        .addTemporalMarker(() -> {
                             robot.outtake.coboaraCuva();
                             sleep(200);
                             robot.outtake.manualLevel(-50);
                             sleep(200);
                             robot.outtake.deschideCuva();
+                        })
+                        .forward(70)
+                        .addDisplacementMarker(() -> {
+                          robot.intake.deschideGheara();
+                        })
+                        .splineToLinearHeading(new Pose2d(-54,-27, Math.toRadians(-180)), Math.toRadians(90))
+                        .addTemporalMarker(() -> {
+                            robot.intake.activateConveyor(-1);
+                            robot.intake.setSweepPower(0.4);
+                        })
+                        .forward(3)
+                        .addTemporalMarker(() -> {
+                            robot.intake.inchideGhearapos(0.6);
+                        })
+                        .forward(2)
+                        .waitSeconds(0.2)
+                        .back(8)
+                        .addDisplacementMarker(() -> {
+                            robot.intake.stopConveyor();
+                            robot.intake.setSweepPower(0);
+                        })
+                        .addTemporalMarker(() -> {
+                            robot.intake.inchideGheara();
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);

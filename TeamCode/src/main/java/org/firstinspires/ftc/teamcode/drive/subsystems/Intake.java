@@ -57,6 +57,10 @@ public class Intake {
         conveyor.setPower(0);
     }
 
+    public void inchideGhearapos(double pos){
+        servoGhearaDreapta.setPosition(pos);
+        servoGhearaStanga.setPosition(pos);
+    }
     public void inchideGheara(){
         servoGhearaDreapta.setPosition(1);
         servoGhearaStanga.setPosition(1);

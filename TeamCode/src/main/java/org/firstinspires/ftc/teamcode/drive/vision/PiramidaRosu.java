@@ -28,13 +28,13 @@ public class PiramidaRosu extends OpenCvPipeline {
 
     //TODO de gasit punctele pentru dreptunghiuri
     static final Rect CENTER_ROI = new Rect(
-            new Point(300, 300),
-            new Point(400, 400)
+            new Point(400, 470),
+            new Point(500, 570)
     );
 
     static final Rect RIGHT_ROI = new Rect(
-            new Point (900, 300),
-            new Point(1000, 400)
+            new Point (1100, 470),
+            new Point(1200, 570)
     );
 
     @Override
