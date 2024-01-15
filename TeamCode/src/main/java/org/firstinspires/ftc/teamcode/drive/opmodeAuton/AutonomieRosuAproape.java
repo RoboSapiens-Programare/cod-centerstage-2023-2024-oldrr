@@ -143,13 +143,23 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.inchideCuva();
+                        })
                         .waitSeconds(0.2)
                         .strafeLeft(18)
+                        .waitSeconds(0.2)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                        })
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.inchideCuva();
+                        })
                         .addTemporalMarker(() -> {
                             robot.outtake.coboaraCuva();
                             sleep(200);
                             robot.outtake.manualLevel(-50);
-                            sleep(200);
+                            sleep(500);
                             robot.outtake.deschideCuva();
                         })
                         .forward(70)
