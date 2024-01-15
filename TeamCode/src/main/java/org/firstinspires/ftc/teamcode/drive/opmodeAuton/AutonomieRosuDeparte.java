@@ -192,12 +192,6 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                 sleep(30000);
             }
             else {
-//                TrajectorySequence myTrajectory0 = robot.drive.trajectorySequenceBuilder(start)
-//                        .lineTo(new Vector2d(12, -50))
-//                        .build();
-//                sleep(3000);
-//                robot.drive.followTrajectorySequence(myTrajectory0);
-//                start = robot.drive.getPoseEstimate();
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
                         .splineToLinearHeading(new Pose2d(-46,-35,Math.toRadians(-90)), Math.toRadians(90))
@@ -232,40 +226,6 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                             sleep(200);
                             robot.outtake.deschideCuva();
                         })
-
-
-//                        .back(4)
-//                        .turn(180)
-//                        .forward(20)
-//                        .turn(Math.toRadians(90))
-//                        .addTemporalMarker(() -> {
-//                            robot.intake.activateConveyor(1);
-//                            sleep(2000);
-//                            robot.intake.stopConveyor();
-//                        })
-//                        .turn(180)
-//                        .back(36)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.manualLevel(700);
-//                            robot.outtake.inchideCuva();
-//                            sleep(1000);
-//                            robot.outtake.ridicaCuva();
-//                        })
-//                        .back(5)
-//                        .strafeRight(6)
-//                        .waitSeconds(0.3)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.deschideCuva();
-//                        })
-//                        .waitSeconds(1)
-//                        .forward(7)
-//                        .addTemporalMarker(() -> {
-//                            robot.outtake.inchideCuva();
-//                            robot.outtake.coboaraCuva();
-//                            robot.outtake.manualLevel(-100);
-//                        })
-//                        .strafeRight(18)
-//                        .back(17)
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
                 robot.outtake.deschideCuva();

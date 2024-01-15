@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmodeTele;
 
 import static java.lang.Math.abs;
 
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -53,10 +54,41 @@ public class LinearDriveMode extends LinearOpMode {
         telemetry.addData(">", "Initialized");
         telemetry.update();
         servoAvion.setPosition(0);
+        robot.intake.inchideGheara();
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            //field centric start
+            Pose2d poseEstimate = robot.drive.getPoseEstimate();
+
+            // Create a vector from the gamepad x/y inputs
+            // Then, rotate that vector by the inverse of that heading
+            Vector2d input = new Vector2d(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x
+            ).rotated(-poseEstimate.getHeading());
+
+            // Pass in the rotated input + right stick value for rotation
+            // Rotation is not part of the rotated input thus must be passed in separately
+            robot.drive.setWeightedDrivePower(
+                    new Pose2d(
+                            input.getX(),
+                            input.getY(),
+                            -gamepad1.right_stick_x
+                    )
+            );
+
+            // Update everything. Odometry. Etc.
+            robot.drive.update();
+            //field centric end
+
+
+
+
+
+
+
             if(gamepad2.left_stick_button && gamepad2.right_stick_button){
                 servoAvion.setPosition(1);
             }
@@ -228,13 +260,16 @@ public class LinearDriveMode extends LinearOpMode {
 
             if(gamepad1.dpad_up) robot.outtake.setCuva(pos);
 
+            if(gamepad1.square) robot.intake.inchideGheara();
+            if(gamepad1.triangle) robot.intake.deschideGheara();
+
             robot.drive.update();
 
             poseEstimate = robot.drive.getPoseEstimate();
 
             double backboardMultiplier = 1;
 //            if(poseEstimate.getY())
-            robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
+//            robot.drive.setDrivePower(new Pose2d(calculateThrottle((-gamepad1.left_stick_y)), calculateThrottle((float) (-gamepad1.left_stick_x)), calculateThrottle((float) (-gamepad1.right_stick_x))));
 
 
             /** TELEMETRY **/
