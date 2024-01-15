@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -22,6 +23,7 @@ public class LinearDriveMode extends LinearOpMode {
     ColorSensor color;
     boolean changed = false; //Outside of loop()
     Pose2d poseEstimate;
+    private Servo servoAvion;
 
     //    private DcMotor hangerMotor = null, winchMotor = null;
     public double calculateThrottle(float x) {
@@ -35,6 +37,8 @@ public class LinearDriveMode extends LinearOpMode {
 
         telemetry.addData(">", "Initializing...");
         telemetry.update();
+        servoAvion = hardwareMap.servo.get("servoAvion");
+        servoAvion.setDirection(Servo.Direction.FORWARD);
 
         robot = new MecanumRobot(hardwareMap);
         robot.drive.setPoseEstimate(PoseStorage.currentPose);
@@ -48,11 +52,14 @@ public class LinearDriveMode extends LinearOpMode {
 
         telemetry.addData(">", "Initialized");
         telemetry.update();
-
+        servoAvion.setPosition(0);
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            if(gamepad2.left_stick_button && gamepad2.right_stick_button){
+                servoAvion.setPosition(1);
+            }
             if (gamepad2.left_trigger > 0.1) {
                 robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() - calculateThrottle(gamepad2.left_trigger * 12);
                 robot.outtake.manualTarget--;

@@ -110,28 +110,32 @@ public class AutonomieRosuDeparte extends LinearOpMode {
 
         while (opModeIsActive()) {
             //modifica asta daca alianta e mai rapida ca noi ca suntem niste sclavi
-            sleep(0);
+//            sleep(2000);
             robot.outtake.inchideCuva();
             Pose2d start = new Pose2d(-34, -60, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosu.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
-                        .back(4)
-                        .strafeRight(6)
-                        .splineToLinearHeading(new Pose2d(-34,-27,Math.toRadians(-180)), Math.toRadians(20))
-                        .forward(8)
-                        .splineToLinearHeading(new Pose2d(-48,-8, Math.toRadians(-180)), Math.toRadians(-360))
-                        .back(80)
-                        .splineToConstantHeading(new Vector2d(35,-42), Math.toRadians(20))
+                        .back(10)
+                        .lineToLinearHeading(new Pose2d(-30.5,-36, Math.toRadians(-130)))
+                        .forward(4)
+                        .lineToLinearHeading(new Pose2d(-44,-10, Math.toRadians(-180)))
+                        .back(68)
+                        .splineToLinearHeading(new Pose2d(40,-39.5, Math.toRadians(-180)), Math.toRadians(-90))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(720);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(14)
+                        .waitSeconds(0.2)
+                        .back(8)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.2)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
                         })
                         .waitSeconds(0.2)
                         .forward(4)
@@ -146,28 +150,32 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             else if(finalLocation == PiramidaRosu.Location.CENTER){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
                         .back(26)
-                        .forward(2)
-                        .strafeRight(4)
-                        .forward(12)
-                        .splineToLinearHeading(new Pose2d(-48,-8, Math.toRadians(-180)), Math.toRadians(20))
+                        .lineToLinearHeading(new Pose2d(-46,-46, Math.toRadians(-180)))
+                        .lineToLinearHeading(new Pose2d(-54,-8, Math.toRadians(-180)))
                         .back(75)
-                        .splineToConstantHeading(new Vector2d(35,-35), Math.toRadians(20))
+                        .splineToConstantHeading(new Vector2d(40,-34.5), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(720);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(14)
+                        .waitSeconds(0.2)
+                        .back(11)
                         .waitSeconds(0.15)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
                         .waitSeconds(0.1)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
+                        })
+                        .waitSeconds(0.2)
                         .forward(4)
                         .strafeRight(24)
                         .addTemporalMarker(() -> {
@@ -180,6 +188,7 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             else {
@@ -193,18 +202,24 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                         .setReversed(true)
                         .splineToLinearHeading(new Pose2d(-46,-35,Math.toRadians(-90)), Math.toRadians(90))
                         .forward(24)
-                        .strafeLeft(11)
+                        .lineTo(new Vector2d(-39,-40))
+                        .strafeLeft(4)
                         .lineToConstantHeading(new Vector2d(-35,-8))
                         .lineToLinearHeading(new Pose2d(24,-8, Math.toRadians(-180)))
-                        .splineToConstantHeading(new Vector2d(35,-28), Math.toRadians(20))
+                        .splineToConstantHeading(new Vector2d(40,-28), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(730);
                             robot.outtake.ridicaCuva();
                         })
-                        .back(14)
+                        .waitSeconds(0.2)
+                        .back(9)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.2)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
                         })
                         .waitSeconds(0.2)
                         .forward(4)
@@ -253,6 +268,7 @@ public class AutonomieRosuDeparte extends LinearOpMode {
 //                        .back(17)
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             if (isStopRequested()) {

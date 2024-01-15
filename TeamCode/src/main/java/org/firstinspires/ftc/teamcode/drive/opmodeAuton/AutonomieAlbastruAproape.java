@@ -115,21 +115,25 @@ private MecanumRobot robot = null;
             if(finalLocation == PiramidaAlbastru.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .setReversed(true)
-                        //.back(12)
                         .splineToLinearHeading(new Pose2d(9, 36, Math.toRadians(30)), Math.toRadians(-160))
                         .lineToSplineHeading(new Pose2d(30,29.5, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(720);
                             robot.outtake.ridicaCuva();
                         })
+                        .waitSeconds(0.2)
                         .back(18)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
                         .waitSeconds(0.2)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
+                        })
+                        .waitSeconds(0.2)
                         .forward(4)
-                        .strafeLeft(16)
+                        .strafeLeft(20)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                             robot.outtake.coboaraCuva();
@@ -140,6 +144,7 @@ private MecanumRobot robot = null;
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             else if(finalLocation == PiramidaAlbastru.Location.CENTER){
@@ -149,18 +154,22 @@ private MecanumRobot robot = null;
                         .forward(4)
                         .lineToSplineHeading(new Pose2d(24,36, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(720);
                             robot.outtake.ridicaCuva();
                         })
-                        .waitSeconds(0.1)
+                        .waitSeconds(0.2)
                         .back(22.7)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
                         .waitSeconds(0.2)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
+                        })
+                        .waitSeconds(0.2)
                         .forward(4)
-                        .strafeLeft(24)
+                        .strafeLeft(30)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                             robot.outtake.coboaraCuva();
@@ -171,6 +180,7 @@ private MecanumRobot robot = null;
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             else {
@@ -181,17 +191,22 @@ private MecanumRobot robot = null;
                         .forward(3)
                         .lineToSplineHeading(new Pose2d(35,41, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
-                            robot.outtake.manualLevel(650);
+                            robot.outtake.manualLevel(720);
                             robot.outtake.ridicaCuva();
                         })
+                        .waitSeconds(0.2)
                         .back(13)
                         .waitSeconds(0.15)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
                         .waitSeconds(0.1)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
+                        })
+                        .waitSeconds(0.2)
                         .forward(4)
-                        .strafeLeft(34)
+                        .strafeLeft(40)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                             robot.outtake.coboaraCuva();
@@ -202,6 +217,7 @@ private MecanumRobot robot = null;
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);
+                robot.outtake.deschideCuva();
                 sleep(30000);
             }
             if (isStopRequested()) {
