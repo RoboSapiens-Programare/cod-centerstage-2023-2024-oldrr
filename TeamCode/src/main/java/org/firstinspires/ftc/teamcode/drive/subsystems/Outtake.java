@@ -83,21 +83,21 @@ public class Outtake {
     }
 
     public void deschideCuva(){
-        servoCuvaStanga.setPosition(0.23);
+        servoCuvaStanga.setPosition(0.2);
         servoCuvaDreapta.setPosition(0.2);
     }
     public void inchideCuva(){
-        servoCuvaStanga.setPosition(0.01);
+        servoCuvaStanga.setPosition(0);
         servoCuvaDreapta.setPosition(0);
     }
     public void deschideStanga(){
-        servoCuvaStanga.setPosition(0.23);
+        servoCuvaStanga.setPosition(0.2);
     }
     public void deschideDreapta(){
         servoCuvaDreapta.setPosition(0.2);
     }
     public void inchideStanga(){
-        servoCuvaStanga.setPosition(0.01);
+        servoCuvaStanga.setPosition(0);
     }
     public void inchideDreapta(){
         servoCuvaDreapta.setPosition(0);
