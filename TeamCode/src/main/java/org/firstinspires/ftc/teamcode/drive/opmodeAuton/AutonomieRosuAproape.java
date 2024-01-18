@@ -129,7 +129,6 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         })
                         .waitSeconds(0.2)
                         .back(4.5)
-                        .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
                         })
@@ -137,7 +136,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(900);
                         })
-                        .waitSeconds(0.2)
+                        .waitSeconds(0.1)
                         .forward(4)
                         .waitSeconds(0.1)
                         .addTemporalMarker(() -> {
@@ -146,9 +145,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .addDisplacementMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
-                        .waitSeconds(0.2)
                         .strafeLeft(18)
-                        .waitSeconds(0.2)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
@@ -165,25 +162,61 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .forward(70)
                         .addDisplacementMarker(() -> {
                           robot.intake.deschideGheara();
+                          robot.outtake.deschideCuva();
                         })
-                        .splineToLinearHeading(new Pose2d(-54,-27, Math.toRadians(-180)), Math.toRadians(90))
-                        .addTemporalMarker(() -> {
-                            robot.intake.activateConveyor(-1);
-                            robot.intake.setSweepPower(0.4);
-                        })
-                        .forward(3)
+                        .splineToLinearHeading(new Pose2d(-54,-27.5, Math.toRadians(-180)), Math.toRadians(90))
+                        .forward(5)
                         .addTemporalMarker(() -> {
                             robot.intake.inchideGhearapos(0.6);
+                            robot.intake.setSweepPower(0.6);
+                                robot.intake.activateConveyor(-1);
+
+                                sleep(500);
+                                robot.intake.setSweepPower(-0.7);
+                                sleep(250);
+                                robot.intake.setSweepPower(0.6);
+                                sleep(1500);
+                                robot.intake.setSweepPower(-0.7);
+                            robot.outtake.inchideCuva();
                         })
-                        .forward(2)
-                        .waitSeconds(0.2)
-                        .back(8)
+                        .back(2)
                         .addDisplacementMarker(() -> {
                             robot.intake.stopConveyor();
                             robot.intake.setSweepPower(0);
                         })
+                        .back(2)
                         .addTemporalMarker(() -> {
                             robot.intake.inchideGheara();
+                        })
+                        .strafeRight(18)
+                        .back(102)
+                        .lineToSplineHeading(new Pose2d(44,-35, Math.toRadians(-180)))
+                        .addTemporalMarker(() -> {
+                            robot.outtake.manualLevel(680);
+                            robot.outtake.ridicaCuva();
+                        })
+                        .back(6)
+                        .addTemporalMarker(() ->{
+                            robot.outtake.deschideCuva();
+                        })
+                        .waitSeconds(0.2)
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.manualLevel(900);
+                        })
+                        .waitSeconds(0.2)
+                        .forward(4)
+                        .addTemporalMarker(() -> {
+                            robot.outtake.inchideCuva();
+                        })
+                        .addDisplacementMarker(() -> {
+                            robot.outtake.inchideCuva();
+                        })
+                        .addTemporalMarker(() -> {
+                            robot.outtake.coboaraCuva();
+                            sleep(200);
+                            robot.outtake.manualLevel(-50);
+                            sleep(500);
+                            robot.outtake.deschideCuva();
                         })
                         .build();
                 robot.drive.followTrajectorySequence(myTrajectory1);

@@ -25,8 +25,12 @@ public class MeepMeepTesting {
                                 .strafeLeft(20)
                                 .forward(70)
                                 .splineToLinearHeading(new Pose2d(-56,-29, Math.toRadians(-180)), Math.toRadians(90))
-                                .forward(3)
-
+                                .forward(4)
+                                .back(4)
+                                .strafeRight(18)
+                                .back(102)
+                                .lineToSplineHeading(new Pose2d(44,-35, Math.toRadians(-180)))
+                                .back(5)
                                 .build()
                 );
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
