@@ -133,7 +133,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(4)
-                        .strafeLeft(20)
+                        .strafeLeft(18)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                             robot.outtake.coboaraCuva();
