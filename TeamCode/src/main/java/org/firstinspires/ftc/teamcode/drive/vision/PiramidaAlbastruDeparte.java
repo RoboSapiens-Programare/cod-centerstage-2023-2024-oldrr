@@ -8,15 +8,15 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class PiramidaRosu extends OpenCvPipeline {
+public class PiramidaAlbastruDeparte extends OpenCvPipeline {
     //Telemetry telemetry;
     Mat mat = new Mat();
 
-    private final Scalar LOW_RED = new Scalar(0, 50, 30);
-    private final Scalar HIGH_RED = new Scalar(8, 255, 255);
+    private final Scalar LOW_BLUE = new Scalar(100, 50, 50);
+    private final Scalar HIGH_BLUE = new Scalar(160, 255, 255);
 
     //TODO de aflat valoarea minima de galben dintr-un dreptunghi, fara ratoi
-    private static final double PERCENT_COLOR_THRESHOLD = 0.001;
+    private static final double PERCENT_COLOR_THRESHOLD = 0.2;
 
     public enum Location {
         LEFT,
@@ -24,44 +24,45 @@ public class PiramidaRosu extends OpenCvPipeline {
         RIGHT
     }
 
-    private PiramidaRosu.Location location = PiramidaRosu.Location.LEFT;
+    private PiramidaAlbastruDeparte.Location location = PiramidaAlbastruDeparte.Location.LEFT;
 
     //TODO de gasit punctele pentru dreptunghiuri
-    static final Rect CENTER_ROI = new Rect(
-            new Point(400, 470),
-            new Point(500, 570)
+    static final Rect RIGHT_ROI = new Rect(
+            new Point(1180, 400),
+            new Point(1280, 500
+            )
     );
 
-    static final Rect RIGHT_ROI = new Rect(
-            new Point (1070, 470),
-            new Point(1200, 570)
+    static final Rect CENTER_ROI = new Rect(
+            new Point (500, 400),
+            new Point(600, 500)
     );
 
     @Override
     public Mat processFrame(Mat input){
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = LOW_RED;
-        Scalar highHSV = HIGH_RED;
+        Scalar lowHSV = LOW_BLUE;
+        Scalar highHSV = HIGH_BLUE;
 
         //dreptunghiuri regiuni
-        final Scalar RED = new Scalar(0, 0, 255);
-        Imgproc.rectangle(input, CENTER_ROI, RED, 2);
+        final Scalar BLUE = new Scalar(0, 0, 255);
+        Imgproc.rectangle(input, RIGHT_ROI, BLUE, 2);
 //            Imgproc.rectangle(input, CENTER_ROI, BLUE, 2);
-        Imgproc.rectangle(input, RIGHT_ROI, RED, 2);
+        Imgproc.rectangle(input, CENTER_ROI, BLUE, 2);
 
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat center = mat.submat(CENTER_ROI);
-//            Mat center = mat.submat(CENTER_ROI);
         Mat right = mat.submat(RIGHT_ROI);
+//            Mat center = mat.submat(CENTER_ROI);
+        Mat center = mat.submat(CENTER_ROI);
 
-        double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
-//            double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
         double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
+//            double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
+        double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 255;
 
-        center.release();
-//            center.release();
         right.release();
+//            center.release();
+        center.release();
 
             /*telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]);
             telemetry.addData("Center raw value", (int) Core.sumElems(left).val[0]);
@@ -70,24 +71,24 @@ public class PiramidaRosu extends OpenCvPipeline {
             //telemetry.addData("Center percentage", Math.round(centerValue * 100) + "%");
             telemetry.addData("Right percentage", Math.round(rightValue * 100) + "%");*/
 
-        boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
-//            boolean duckCenter = centerValue > PERCENT_COLOR_THRESHOLD;
         boolean propRight = rightValue > PERCENT_COLOR_THRESHOLD;
+//            boolean duckCenter = centerValue > PERCENT_COLOR_THRESHOLD;
+        boolean propCenter = centerValue > PERCENT_COLOR_THRESHOLD;
 
-        if(propCenter) {
-            location = PiramidaRosu.Location.CENTER;
+        if(propCenter && centerValue > rightValue) {
+            location = PiramidaAlbastruDeparte.Location.CENTER;
             //telemetry.addData("Duck Location", "left");
         }
 //            else if(duckCenter) {
 //                location = Location.CENTER;
 //                //telemetry.addData("Duck Location", "center");
 //            }
-        else if(propRight) {
-            location = PiramidaRosu.Location.RIGHT;
+        else if(propRight && rightValue > centerValue) {
+            location = PiramidaAlbastruDeparte.Location.RIGHT;
             //telemetry.addData("Duck Location", "right");
         }
-        else{
-            location = PiramidaRosu.Location.LEFT;
+        else if(centerValue < PERCENT_COLOR_THRESHOLD && rightValue < PERCENT_COLOR_THRESHOLD){
+            location = PiramidaAlbastruDeparte.Location.LEFT;
         }
         //telemetry.update();
 
@@ -96,12 +97,12 @@ public class PiramidaRosu extends OpenCvPipeline {
         Scalar notRata = new Scalar(255, 0, 0);
         Scalar rata = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaRosu.Location.CENTER? rata:notRata);
-        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaRosu.Location.RIGHT? rata:notRata);
+        Imgproc.rectangle(mat, RIGHT_ROI, location == PiramidaAlbastruDeparte.Location.RIGHT? rata:notRata);
+        Imgproc.rectangle(mat, CENTER_ROI, location == PiramidaAlbastruDeparte.Location.CENTER? rata:notRata);
 
         return input;
     }
-    public Location getLocationRed(){
+    public Location getLocationBlue(){
         return location;
     }
 }

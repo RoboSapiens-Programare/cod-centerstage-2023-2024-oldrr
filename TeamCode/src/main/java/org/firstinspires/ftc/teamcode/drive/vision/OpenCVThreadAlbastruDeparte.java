@@ -7,19 +7,20 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-public class OpenCVThreadRosu extends Thread {
-    static OpenCvWebcam Webcam;
-    static PiramidaRosu pipeline;
+public class OpenCVThreadAlbastruDeparte extends Thread{
 
-    private PiramidaRosu.Location location;
+    static OpenCvWebcam Webcam;
+    static PiramidaAlbastruDeparte pipeline;
+
+    private PiramidaAlbastruDeparte.Location location;
 
 
     //Constructor
-    public OpenCVThreadRosu(HardwareMap hardwareMap) {
+    public OpenCVThreadAlbastruDeparte(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1"); //TODO get camera name
         Webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
-        pipeline = new PiramidaRosu();
+        pipeline = new PiramidaAlbastruDeparte();
         Webcam.setPipeline(pipeline);
 
         Webcam.openCameraDeviceAsync(new OpenCvWebcam.AsyncCameraOpenListener()
@@ -45,7 +46,7 @@ public class OpenCVThreadRosu extends Thread {
         Webcam.closeCameraDevice();
     }
 
-    public PiramidaRosu.Location getLocation(){
+    public PiramidaAlbastruDeparte.Location getLocation(){
         return location;
     }
 
@@ -54,7 +55,7 @@ public class OpenCVThreadRosu extends Thread {
     @Override
     public void run() {
         while(this.isAlive()){
-            this.location = pipeline.getLocationRed();
+            this.location = pipeline.getLocationBlue();
         }
 
 

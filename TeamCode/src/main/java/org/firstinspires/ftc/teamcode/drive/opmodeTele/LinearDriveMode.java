@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -90,7 +91,7 @@ public class LinearDriveMode extends LinearOpMode {
 
 
             if(gamepad2.left_stick_button && gamepad2.right_stick_button){
-                servoAvion.setPosition(1);
+                servoAvion.setPosition(0.5);
             }
             if (gamepad2.left_trigger > 0.1) {
                 robot.outtake.manualTarget = robot.outtake.motorGlisiera.getCurrentPosition() - calculateThrottle(gamepad2.left_trigger * 12);
@@ -147,6 +148,10 @@ public class LinearDriveMode extends LinearOpMode {
                         autoMode = true;
                     }
                 }
+                if(gamepad2.touchpad){
+                    robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                }
+
 
             } else {
 
@@ -185,6 +190,10 @@ public class LinearDriveMode extends LinearOpMode {
                 if(gamepad2.dpad_right){
                     robot.outtake.deschideStanga();
                 }
+                if(gamepad2.touchpad){
+                    robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                }
+
             }
 
             double pozitieGlisiera = robot.outtake.motorGlisiera.getCurrentPosition();
@@ -195,6 +204,10 @@ public class LinearDriveMode extends LinearOpMode {
                     robot.outtake.manualLevel(1200);
                 else
                     robot.outtake.manualLevel(1400);
+            }
+
+            if(gamepad2.touchpad){
+                robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
             if (gamepad2.dpad_down) {
