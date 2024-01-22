@@ -114,9 +114,11 @@ public class LinearDriveMode extends LinearOpMode {
             if (autoMode) {
                 if (robot.outtake.pixelStanga()) {
                     robot.outtake.inchideStanga();
+                    gamepad1.rumble(200);
                 }
                 if (robot.outtake.pixelDreapta()) {
                     robot.outtake.inchideDreapta();
+                    gamepad1.rumble(200);
                 }
                 if (!robot.outtake.pixelStanga()) {
                     robot.outtake.deschideStanga();
@@ -258,8 +260,10 @@ public class LinearDriveMode extends LinearOpMode {
 
             if (gamepad1.cross) {
                 robot.hanger.motorHanger.setPower(1);
+                robot.hanger.hangerLock.setPosition(1);
             } else if (gamepad1.circle) {
                 robot.hanger.motorHanger.setPower(-1);
+                robot.hanger.hangerLock.setPosition(1);
             } else {
                 robot.hanger.motorHanger.setPower(0);
             }
