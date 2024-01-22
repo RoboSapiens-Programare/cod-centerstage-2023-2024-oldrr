@@ -74,7 +74,7 @@ public class PiramidaRosuAproape extends OpenCvPipeline {
 //            boolean duckCenter = centerValue > PERCENT_COLOR_THRESHOLD;
         boolean propRight = rightValue > PERCENT_COLOR_THRESHOLD;
 
-        if(propCenter) {
+        if(propCenter && centerValue > rightValue) {
             location = PiramidaRosuAproape.Location.CENTER;
             //telemetry.addData("Duck Location", "left");
         }
@@ -82,11 +82,11 @@ public class PiramidaRosuAproape extends OpenCvPipeline {
 //                location = Location.CENTER;
 //                //telemetry.addData("Duck Location", "center");
 //            }
-        else if(propRight) {
+        else if(propRight && rightValue > centerValue) {
             location = PiramidaRosuAproape.Location.RIGHT;
             //telemetry.addData("Duck Location", "right");
         }
-        else{
+        else if(centerValue < PERCENT_COLOR_THRESHOLD && rightValue < PERCENT_COLOR_THRESHOLD){
             location = PiramidaRosuAproape.Location.LEFT;
         }
         //telemetry.update();
