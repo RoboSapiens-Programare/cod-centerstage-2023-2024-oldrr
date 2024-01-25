@@ -16,6 +16,7 @@ public class Outtake {
     public DcMotor motorGlisiera;
     public Servo servoStanga, servoDreapta; /** Cand te uiti din spatele robotului **/
     public Servo servoCuvaStanga, servoCuvaDreapta;
+    public Servo mozaicFixer;
     public double manualTarget = 0;
 
     public DistanceSensor senzorDistanta1, senzorDistanta2;
@@ -31,6 +32,7 @@ public class Outtake {
         servoCuvaStanga = hardwareMap.servo.get("servoCuvaStanga");
         servoCuvaDreapta = hardwareMap.servo.get("servoCuvaDreapta");
 
+        mozaicFixer = hardwareMap.servo.get("servoMozaic");
 
         senzorDistanta1 = hardwareMap.get(DistanceSensor.class, "senzorDistanta1");
         senzorDistanta2 = hardwareMap.get(DistanceSensor.class, "senzorDistanta2");
@@ -44,6 +46,7 @@ public class Outtake {
         servoDreapta.setDirection(Servo.Direction.REVERSE);
         servoCuvaStanga.setDirection(Servo.Direction.REVERSE);
         servoCuvaDreapta.setDirection(Servo.Direction.FORWARD);
+        mozaicFixer.setDirection(Servo.Direction.FORWARD);
     }
 
 
@@ -116,6 +119,14 @@ public class Outtake {
             return true;
         }
         else return false;
+    }
+
+    public void activateMozaicFixer(){
+        mozaicFixer.setPosition(0.1);
+    }
+
+    public void disableMozaicFixer(){
+        mozaicFixer.setPosition(0.5);
     }
 
 }

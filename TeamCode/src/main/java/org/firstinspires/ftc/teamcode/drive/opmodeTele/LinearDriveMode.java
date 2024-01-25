@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.util.PoseStorage;
 
 public class LinearDriveMode extends LinearOpMode {
     private MecanumRobot robot = null;
-    boolean subZero = false, autoMode = true;
+    boolean subZero = false, autoMode = true, isVibrating = false;
     private double pos = 0.3;
     private ElapsedTime timer;
     ColorSensor color;
@@ -55,7 +55,9 @@ public class LinearDriveMode extends LinearOpMode {
         telemetry.addData(">", "Initialized");
         telemetry.update();
         servoAvion.setPosition(0);
+        robot.hanger.hangerLock.setPosition(0);
         robot.intake.inchideGheara();
+        robot.outtake.disableMozaicFixer();
         waitForStart();
         if (isStopRequested()) return;
 
@@ -85,11 +87,6 @@ public class LinearDriveMode extends LinearOpMode {
 //            //field centric end
 
 
-
-
-
-
-
             if(gamepad2.left_stick_button && gamepad2.right_stick_button){
                 servoAvion.setPosition(0.5);
             }
@@ -104,6 +101,11 @@ public class LinearDriveMode extends LinearOpMode {
                 robot.outtake.manualLevel(robot.outtake.manualTarget);
             }
 
+            if(gamepad2.left_stick_y >= 0.1)
+                robot.outtake.disableMozaicFixer();
+            if(gamepad2.left_stick_y <= -0.1)
+                robot.outtake.activateMozaicFixer();
+
             if (gamepad2.share) {
                 autoMode = false;
             }
@@ -114,11 +116,18 @@ public class LinearDriveMode extends LinearOpMode {
             if (autoMode) {
                 if (robot.outtake.pixelStanga()) {
                     robot.outtake.inchideStanga();
-                    gamepad1.rumble(200);
+                    if(!isVibrating) {
+                        gamepad1.rumble(200);
+                        isVibrating = true;
+                    }
                 }
                 if (robot.outtake.pixelDreapta()) {
                     robot.outtake.inchideDreapta();
-                    gamepad1.rumble(200);
+                    if(!isVibrating) {
+                        gamepad1.rumble(200);
+                        isVibrating = true;
+                    }
+//                    gamepad1.rumble(200);
                 }
                 if (!robot.outtake.pixelStanga()) {
                     robot.outtake.deschideStanga();
@@ -154,7 +163,6 @@ public class LinearDriveMode extends LinearOpMode {
                     robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 }
 
-
             } else {
 
                 if (gamepad2.triangle) {
@@ -180,6 +188,7 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if (gamepad2.left_bumper) {
                     robot.outtake.deschideCuva();
+                    isVibrating = false;
                 }
 
                 if (gamepad2.right_bumper) {
@@ -188,9 +197,11 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if(gamepad2.dpad_left){
                     robot.outtake.deschideDreapta();
+                    isVibrating = true;
                 }
                 if(gamepad2.dpad_right){
                     robot.outtake.deschideStanga();
+                    isVibrating = true;
                 }
                 if(gamepad2.touchpad){
                     robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -268,14 +279,6 @@ public class LinearDriveMode extends LinearOpMode {
                 robot.hanger.motorHanger.setPower(0);
             }
 
-            if(gamepad1.dpad_left && pos > 0){
-                pos -= 0.01;
-            }
-            if (gamepad1.dpad_right && pos < 1) {
-                pos += 0.01;
-            }
-
-            if(gamepad1.dpad_up) robot.outtake.setCuva(pos);
 
             if(gamepad1.square) robot.intake.inchideGheara();
             if(gamepad1.triangle) robot.intake.deschideGheara();
@@ -316,4 +319,3 @@ public class LinearDriveMode extends LinearOpMode {
         }
     }
 }
-

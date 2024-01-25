@@ -25,9 +25,6 @@ public class Hanger {
         motorHanger.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorHanger.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        hangerLock.setDirection(Servo.Direction.FORWARD);
-        hangerLock.setPosition(0);
+        hangerLock.setDirection(Servo.Direction.REVERSE);
     }
 }
-
-
