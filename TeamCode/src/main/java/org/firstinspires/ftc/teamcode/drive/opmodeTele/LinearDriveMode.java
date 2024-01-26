@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.drive.opmodeTele;
 
 import static java.lang.Math.abs;
 
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -19,7 +18,7 @@ import org.firstinspires.ftc.teamcode.util.PoseStorage;
 
 public class LinearDriveMode extends LinearOpMode {
     private MecanumRobot robot = null;
-    boolean subZero = false, autoMode = true, isVibrating = false;
+    boolean subZero = false, autoMode = true, isVibratingDreapta = false, isVibratingStanga = false;
     private double pos = 0.3;
     private ElapsedTime timer;
     ColorSensor color;
@@ -116,16 +115,16 @@ public class LinearDriveMode extends LinearOpMode {
             if (autoMode) {
                 if (robot.outtake.pixelStanga()) {
                     robot.outtake.inchideStanga();
-                    if(!isVibrating) {
+                    if(!isVibratingStanga) {
                         gamepad1.rumble(200);
-                        isVibrating = true;
+                        isVibratingStanga = true;
                     }
                 }
                 if (robot.outtake.pixelDreapta()) {
                     robot.outtake.inchideDreapta();
-                    if(!isVibrating) {
+                    if(!isVibratingDreapta) {
                         gamepad1.rumble(200);
-                        isVibrating = true;
+                        isVibratingDreapta = true;
                     }
 //                    gamepad1.rumble(200);
                 }
@@ -188,7 +187,8 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if (gamepad2.left_bumper) {
                     robot.outtake.deschideCuva();
-                    isVibrating = false;
+                    isVibratingDreapta = false;
+                    isVibratingStanga = false;
                 }
 
                 if (gamepad2.right_bumper) {
@@ -197,11 +197,11 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if(gamepad2.dpad_left){
                     robot.outtake.deschideDreapta();
-                    isVibrating = true;
+                    isVibratingDreapta = true;
                 }
                 if(gamepad2.dpad_right){
                     robot.outtake.deschideStanga();
-                    isVibrating = true;
+                    isVibratingStanga = true;
                 }
                 if(gamepad2.touchpad){
                     robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -33,8 +33,8 @@ public class PiramidaRosuDeparte extends OpenCvPipeline {
     );
 
     static final Rect LEFT_ROI = new Rect(
-            new Point (80, 390),
-            new Point(180, 490)
+            new Point (80, 400),
+            new Point(180, 500)
     );
 
     @Override

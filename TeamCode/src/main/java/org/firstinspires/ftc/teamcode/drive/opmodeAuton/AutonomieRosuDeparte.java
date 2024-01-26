@@ -171,7 +171,7 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                             robot.outtake.ridicaCuva();
                         })
                         .waitSeconds(0.2)
-                        .back(12)
+                        .back(13)
                         .waitSeconds(0.15)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
@@ -210,7 +210,7 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                             robot.outtake.ridicaCuva();
                         })
                         .waitSeconds(0.2)
-                        .back(8)
+                        .back(9)
                         .waitSeconds(0.2)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
