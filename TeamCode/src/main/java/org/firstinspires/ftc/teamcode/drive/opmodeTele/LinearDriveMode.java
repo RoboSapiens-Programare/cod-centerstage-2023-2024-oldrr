@@ -100,10 +100,14 @@ public class LinearDriveMode extends LinearOpMode {
                 robot.outtake.manualLevel(robot.outtake.manualTarget);
             }
 
-            if(gamepad2.left_stick_y >= 0.1)
+            if(gamepad2.left_stick_y >= 0.1) {
                 robot.outtake.disableMozaicFixer();
-            if(gamepad2.left_stick_y <= -0.1)
+                robot.outtake.manualLevel(700);
+            }
+            if(gamepad2.left_stick_y <= -0.1) {
+                robot.outtake.manualLevel(350);
                 robot.outtake.activateMozaicFixer();
+            }
 
             if (gamepad2.share) {
                 autoMode = false;
