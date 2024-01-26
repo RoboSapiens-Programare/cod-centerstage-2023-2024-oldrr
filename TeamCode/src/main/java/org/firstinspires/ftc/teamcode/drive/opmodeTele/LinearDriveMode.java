@@ -144,6 +144,7 @@ public class LinearDriveMode extends LinearOpMode {
                 }
                 if (gamepad2.triangle) {
                     robot.outtake.inchideCuva();
+                    robot.outtake.disableMozaicFixer();
                     robot.outtake.coboaraCuva();
                     timer = new ElapsedTime();
                     timer.startTime();
@@ -166,6 +167,7 @@ public class LinearDriveMode extends LinearOpMode {
 
                 if (gamepad2.triangle) {
                     robot.outtake.inchideCuva();
+                    robot.outtake.disableMozaicFixer();
                     robot.outtake.coboaraCuva();
                     sleep(200);
                     robot.outtake.manualLevel(-50);
