@@ -113,7 +113,7 @@ private MecanumRobot robot = null;
             sleep(0);
             robot.outtake.inchideCuva();
             robot.intake.inchideGheara();
-            Pose2d start = new Pose2d(-37, 60, Math.toRadians(90));
+            Pose2d start = new Pose2d(-37, 60.5, Math.toRadians(90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaAlbastruDeparte.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
@@ -124,7 +124,7 @@ private MecanumRobot robot = null;
                         .strafeRight(12)
                         .lineToConstantHeading(new Vector2d(-35,8))
                         .lineToLinearHeading(new Pose2d(24,8, Math.toRadians(180)))
-                        .splineToConstantHeading(new Vector2d(40,29), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(40,29.7), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
@@ -141,7 +141,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(8)
-                        .strafeRight(32)
+                        .strafeLeft(16)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
@@ -190,7 +190,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(6)
-                        .strafeRight(24)
+                        .strafeLeft(24)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
@@ -224,7 +224,7 @@ private MecanumRobot robot = null;
                         .forward(4)
                         .lineToLinearHeading(new Pose2d(-44,10, Math.toRadians(180)))
                         .back(68)
-                        .splineToLinearHeading(new Pose2d(40,43, Math.toRadians(180)), Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(40,43.5, Math.toRadians(180)), Math.toRadians(90))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
@@ -241,7 +241,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(4)
-                        .strafeRight(16)
+                        .strafeLeft(30)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })

@@ -102,10 +102,8 @@ public class LinearDriveMode extends LinearOpMode {
 
             if(gamepad2.left_stick_y >= 0.1) {
                 robot.outtake.disableMozaicFixer();
-                robot.outtake.manualLevel(700);
             }
             if(gamepad2.left_stick_y <= -0.1) {
-                robot.outtake.manualLevel(350);
                 robot.outtake.activateMozaicFixer();
             }
 
@@ -216,26 +214,21 @@ public class LinearDriveMode extends LinearOpMode {
             }
 
             double pozitieGlisiera = robot.outtake.motorGlisiera.getCurrentPosition();
-            if (gamepad2.dpad_up) {
-                if(pozitieGlisiera > 700 - 50 && pozitieGlisiera <= 900 - 50)
-                    robot.outtake.manualLevel(900);
-                else if(pozitieGlisiera > 900 - 50 && pozitieGlisiera <= 1200 - 50)
-                    robot.outtake.manualLevel(1200);
-                else
-                    robot.outtake.manualLevel(1400);
-            }
+//            if (gamepad2.dpad_up) {
+//                robot.outtake.manualLevel(robot.outtake.motorGlisiera.getCurrentPosition() + 200);
+//            }
 
             if(gamepad2.touchpad){
                 robot.outtake.motorGlisiera.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
-            if (gamepad2.dpad_down) {
-                if(pozitieGlisiera > 900 - 50 && pozitieGlisiera <= 1200 - 50)
-                    robot.outtake.manualLevel(700);
-                else if(pozitieGlisiera > 1200 - 50 && pozitieGlisiera <= 1400 - 50)
-                    robot.outtake.manualLevel(900);
-                else robot.outtake.manualLevel(1200);
-            }
+//            if (gamepad2.dpad_down) {
+//                if(pozitieGlisiera > 900 - 50 && pozitieGlisiera <= 1200 - 50)
+//                    robot.outtake.manualLevel(700);
+//                else if(pozitieGlisiera > 1200 - 50 && pozitieGlisiera <= 1400 - 50)
+//                    robot.outtake.manualLevel(900);
+//                else robot.outtake.manualLevel(1200);
+//            }
 
 //                if(gamepad2.dpad_up){
 //                    pos += 0.05;
@@ -286,7 +279,12 @@ public class LinearDriveMode extends LinearOpMode {
             }
 
 
-            if(gamepad1.square) robot.intake.inchideGheara();
+            if(gamepad1.square) {
+                robot.intake.servoGhearaStanga.setPosition(0.5);
+                robot.intake.servoGhearaDreapta.setPosition(0.5);
+            }
+            if(gamepad1.touchpad)
+                robot.intake.inchideGheara();
             if(gamepad1.triangle) robot.intake.deschideGheara();
 
             robot.drive.update();

@@ -57,7 +57,7 @@ import org.firstinspires.ftc.teamcode.util.PoseStorage;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Disabled
+
 @Autonomous(name = "Autonomie roadrunner rosu departe stack", group="autonomous")
 
 public class AutonomieRosuDeparteStack extends LinearOpMode {
@@ -114,7 +114,7 @@ public class AutonomieRosuDeparteStack extends LinearOpMode {
             sleep(0);
             robot.outtake.inchideCuva();
             robot.intake.inchideGheara();
-            Pose2d start = new Pose2d(-36, -60, Math.toRadians(-90));
+            Pose2d start = new Pose2d(-36, -60.5, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosuAproape.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
@@ -124,6 +124,9 @@ public class AutonomieRosuDeparteStack extends LinearOpMode {
                         .lineToLinearHeading(new Pose2d(-30.5,-36, Math.toRadians(-130)))
                         .forward(8)
                         .splineToLinearHeading(new Pose2d(-54,-27.3, Math.toRadians(-180)), Math.toRadians(180))
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideStanga();
+                        })
                         .forward(5)
                         .addTemporalMarker(() -> {
                             robot.intake.inchideGhearapos(0.6);
@@ -199,6 +202,9 @@ public class AutonomieRosuDeparteStack extends LinearOpMode {
                         .back(28)
                         .forward(12)
                         .splineToLinearHeading(new Pose2d(-54,-27.3, Math.toRadians(-180)), Math.toRadians(90))
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideStanga();
+                        })
                         .forward(5)
                         .addTemporalMarker(() -> {
                             robot.intake.inchideGhearapos(0.6);
@@ -276,6 +282,9 @@ public class AutonomieRosuDeparteStack extends LinearOpMode {
                         .back(28)
                         .strafeLeft(4)
                         .splineToLinearHeading(new Pose2d(-54,-15, Math.toRadians(-180)), Math.toRadians(180))
+                        .addTemporalMarker(() -> {
+                            robot.outtake.deschideStanga();
+                        })
                         .forward(5)
                         .addTemporalMarker(() -> {
                             robot.intake.inchideGhearapos(0.6);

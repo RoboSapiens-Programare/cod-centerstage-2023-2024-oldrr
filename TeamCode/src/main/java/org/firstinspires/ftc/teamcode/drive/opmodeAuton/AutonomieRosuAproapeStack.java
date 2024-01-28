@@ -57,7 +57,7 @@ import org.firstinspires.ftc.teamcode.util.PoseStorage;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Disabled
+
 @Autonomous(name = "Autonomie roadrunner rosu aproape stack", group="autonomous")
 
 public class AutonomieRosuAproapeStack extends LinearOpMode {
@@ -114,7 +114,7 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
             sleep(0);
             robot.outtake.inchideCuva();
             robot.intake.inchideGheara();
-            Pose2d start = new Pose2d(12, -60, Math.toRadians(-90));
+            Pose2d start = new Pose2d(12, -60.5, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosuAproape.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)

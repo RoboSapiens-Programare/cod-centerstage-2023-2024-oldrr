@@ -113,7 +113,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
             sleep(0);
             robot.outtake.inchideCuva();
             robot.intake.inchideGheara();
-            Pose2d start = new Pose2d(12, -60, Math.toRadians(-90));
+            Pose2d start = new Pose2d(12, -60.5, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosuAproape.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
@@ -127,7 +127,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
                         })
-                        .waitSeconds(0.1)
+                        .waitSeconds(0.2)
                         .back(6.5)
                         .addTemporalMarker(() ->{
                             robot.outtake.deschideCuva();
@@ -168,7 +168,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
                         .back(27)
                         .forward(5)
-                        .lineToSplineHeading(new Pose2d(30,-34.1, Math.toRadians(-180)))
+                        .lineToSplineHeading(new Pose2d(30,-34, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
@@ -215,7 +215,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         .setReversed(true)
                         //.back(12)
                         .splineToLinearHeading(new Pose2d(10, -36, Math.toRadians(-30)), Math.toRadians(-60))
-                        .lineToSplineHeading(new Pose2d(30,-26.8, Math.toRadians(-180)))
+                        .lineToSplineHeading(new Pose2d(30,-26.5, Math.toRadians(-180)))
                         .addDisplacementMarker(() -> {
                             robot.outtake.manualLevel(680);
                             robot.outtake.ridicaCuva();
@@ -232,7 +232,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
                         })
                         .waitSeconds(0.1)
                         .forward(5)
-                        .strafeLeft(29)
+                        .strafeLeft(290)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })

@@ -112,7 +112,7 @@ private MecanumRobot robot = null;
             sleep(0);
             robot.outtake.inchideCuva();
             robot.intake.inchideGheara();
-            Pose2d start = new Pose2d(12, 60, Math.toRadians(90));
+            Pose2d start = new Pose2d(12, 60.5, Math.toRadians(90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaAlbastruAproape.Location.RIGHT){
                 TrajectorySequence myTrajectory1 = robot.drive.trajectorySequenceBuilder(start)
@@ -135,7 +135,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(4)
-                        .strafeRight(30)
+                        .strafeLeft(16)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
@@ -182,7 +182,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(6)
-                        .strafeRight(26)
+                        .strafeLeft(26)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
@@ -230,7 +230,7 @@ private MecanumRobot robot = null;
                         })
                         .waitSeconds(0.2)
                         .forward(5)
-                        .strafeRight(16)
+                        .strafeLeft(30)
                         .addTemporalMarker(() -> {
                             robot.outtake.inchideCuva();
                         })
