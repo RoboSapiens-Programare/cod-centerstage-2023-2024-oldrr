@@ -55,7 +55,7 @@ public class LinearDriveMode extends LinearOpMode {
         telemetry.update();
         servoAvion.setPosition(0);
         robot.hanger.hangerLock.setPosition(0);
-        robot.intake.inchideGheara();
+//        robot.intake.inchideGheara();
         robot.outtake.disableMozaicFixer();
         waitForStart();
         if (isStopRequested()) return;
@@ -258,10 +258,10 @@ public class LinearDriveMode extends LinearOpMode {
             /** GAMEPAD1 **/
 
             if (gamepad1.right_bumper) {
-                robot.intake.setSweepPower(0.4);
+                robot.intake.setSweepPower(0.6);
                 robot.intake.activateConveyor(-1);
             } else if (gamepad1.left_bumper) {
-                robot.intake.setSweepPower(-0.4);
+                robot.intake.setSweepPower(-0.6);
                 robot.intake.activateConveyor(1);
             } else {
                 robot.intake.setSweepPower(0);
@@ -279,13 +279,13 @@ public class LinearDriveMode extends LinearOpMode {
             }
 
 
-            if(gamepad1.square) {
-                robot.intake.servoGhearaStanga.setPosition(0.5);
-                robot.intake.servoGhearaDreapta.setPosition(0.5);
-            }
-            if(gamepad1.touchpad)
-                robot.intake.inchideGheara();
-            if(gamepad1.triangle) robot.intake.deschideGheara();
+//            if(gamepad1.square) {
+//                robot.intake.servoGhearaStanga.setPosition(0.5);
+//                robot.intake.servoGhearaDreapta.setPosition(0.5);
+//            }
+//            if(gamepad1.touchpad)
+//                robot.intake.inchideGheara();
+//            if(gamepad1.triangle) robot.intake.deschideGheara();
 
             robot.drive.update();
 

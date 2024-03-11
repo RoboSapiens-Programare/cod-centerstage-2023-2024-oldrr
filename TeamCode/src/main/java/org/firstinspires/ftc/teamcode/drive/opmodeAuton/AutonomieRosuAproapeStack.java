@@ -113,7 +113,7 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
             //modifica asta daca alianta e mai rapida ca noi ca suntem niste sclavi
             sleep(0);
             robot.outtake.inchideCuva();
-            robot.intake.inchideGheara();
+//            robot.intake.inchideGheara();
             Pose2d start = new Pose2d(12, -60.5, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosuAproape.Location.RIGHT){
@@ -162,13 +162,13 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .forward(70)
                         .addDisplacementMarker(() -> {
-                          robot.intake.deschideGheara();
+//                          robot.intake.deschideGheara();
                           robot.outtake.deschideCuva();
                         })
                         .splineToLinearHeading(new Pose2d(-54,-27.5, Math.toRadians(-180)), Math.toRadians(90))
                         .forward(5)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGhearapos(0.6);
+//                            robot.intake.inchideGhearapos(0.6);
                             robot.intake.setSweepPower(0.6);
                                 robot.intake.activateConveyor(-1);
 
@@ -187,7 +187,7 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .back(2)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGheara();
+//                            robot.intake.inchideGheara();
                         })
                         .strafeRight(18)
                         .back(102)
@@ -267,13 +267,13 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .forward(70)
                         .addDisplacementMarker(() -> {
-                            robot.intake.deschideGheara();
+//                            robot.intake.deschideGheara();
                             robot.outtake.deschideCuva();
                         })
                         .splineToLinearHeading(new Pose2d(-54,-27.3, Math.toRadians(-180)), Math.toRadians(90))
                         .forward(5)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGhearapos(0.6);
+//                            robot.intake.inchideGhearapos(0.6);
                             robot.intake.setSweepPower(0.6);
                             robot.intake.activateConveyor(-1);
                             sleep(500);
@@ -291,7 +291,7 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .back(2)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGheara();
+//                            robot.intake.inchideGheara();
                         })
                         .strafeRight(18)
                         .back(102)
@@ -371,13 +371,13 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .forward(70)
                         .addDisplacementMarker(() -> {
-                            robot.intake.deschideGheara();
+//                            robot.intake.deschideGheara();
                             robot.outtake.deschideCuva();
                         })
                         .splineToLinearHeading(new Pose2d(-54,-15, Math.toRadians(-180)), Math.toRadians(180))
                         .forward(5)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGhearapos(0.6);
+//                            robot.intake.inchideGhearapos(0.6);
                             robot.intake.setSweepPower(0.6);
                             robot.intake.activateConveyor(-1);
                             sleep(500);
@@ -395,7 +395,7 @@ public class AutonomieRosuAproapeStack extends LinearOpMode {
                         })
                         .back(2)
                         .addTemporalMarker(() -> {
-                            robot.intake.inchideGheara();
+//                            robot.intake.inchideGheara();
                         })
                         .splineToLinearHeading(new Pose2d(-24,-10, Math.toRadians(-180)), Math.toRadians(0))
                         .back(48)

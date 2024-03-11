@@ -56,7 +56,7 @@ public class FieldCentricDriveMode extends LinearOpMode {
         telemetry.addData(">", "Initialized");
         telemetry.update();
         servoAvion.setPosition(0);
-        robot.intake.inchideGheara();
+//        robot.intake.inchideGheara();
         waitForStart();
         if (isStopRequested()) return;
 
@@ -262,8 +262,8 @@ public class FieldCentricDriveMode extends LinearOpMode {
 
             if(gamepad1.dpad_up) robot.outtake.setCuva(pos);
 
-            if(gamepad1.square) robot.intake.inchideGheara();
-            if(gamepad1.triangle) robot.intake.deschideGheara();
+//            if(gamepad1.square) robot.intake.inchideGheara();
+//            if(gamepad1.triangle) robot.intake.deschideGheara();
 
             robot.drive.update();
 

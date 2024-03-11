@@ -90,8 +90,8 @@ public class Outtake {
         servoCuvaDreapta.setPosition(0.2);
     }
     public void inchideCuva(){
-        servoCuvaStanga.setPosition(0);
-        servoCuvaDreapta.setPosition(0);
+        servoCuvaStanga.setPosition(0.01);
+        servoCuvaDreapta.setPosition(0.01);
     }
     public void deschideStanga(){
         servoCuvaStanga.setPosition(0.2);
@@ -100,10 +100,10 @@ public class Outtake {
         servoCuvaDreapta.setPosition(0.2);
     }
     public void inchideStanga(){
-        servoCuvaStanga.setPosition(0);
+        servoCuvaStanga.setPosition(0.01);
     }
     public void inchideDreapta(){
-        servoCuvaDreapta.setPosition(0);
+        servoCuvaDreapta.setPosition(0.02);
     }
 
 

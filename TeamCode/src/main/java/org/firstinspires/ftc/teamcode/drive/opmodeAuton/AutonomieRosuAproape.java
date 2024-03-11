@@ -112,7 +112,7 @@ public class AutonomieRosuAproape extends LinearOpMode {
             //modifica asta daca alianta e mai rapida ca noi ca suntem niste sclavi
             sleep(0);
             robot.outtake.inchideCuva();
-            robot.intake.inchideGheara();
+//            robot.intake.inchideGheara();
             Pose2d start = new Pose2d(12, -60.5, Math.toRadians(-90));
             robot.drive.setPoseEstimate(start);
             if(finalLocation == PiramidaRosuAproape.Location.RIGHT){
