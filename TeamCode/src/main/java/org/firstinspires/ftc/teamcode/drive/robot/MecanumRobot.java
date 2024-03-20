@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 //import org.firstinspires.ftc.teamcode.drive.subsystems.Hanger;
 //import org.firstinspires.ftc.teamcode.drive.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.drive.robot.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.subsystems.FixerAndDrone;
 import org.firstinspires.ftc.teamcode.drive.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.drive.subsystems.Outtake;
 //import org.firstinspires.ftc.teamcode.drive.subsystems.Outtake;
@@ -22,15 +23,16 @@ public class MecanumRobot {
     public SampleMecanumDrive drive;
     public Intake intake;
     public Outtake outtake;
+    public FixerAndDrone fixerAndDrone;
 //    public Hanger hanger;
 //    public AprilTagCamera camera;
 
     public MecanumRobot(HardwareMap hardwareMap){
         initialize = true;
+        drive = new SampleMecanumDrive(hardwareMap);
         intake = new Intake(hardwareMap);
         outtake = new Outtake(hardwareMap);
-        drive = new SampleMecanumDrive(hardwareMap);
-//        hanger = new Hanger(hardwareMap);
+        fixerAndDrone = new FixerAndDrone(hardwareMap);
 //        camera = new AprilTagCamera(hardwareMap);
         initialize = false;
 
