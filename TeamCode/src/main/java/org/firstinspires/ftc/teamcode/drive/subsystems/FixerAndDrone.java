@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class FixerAndDrone {
-    private Servo servoAvion;
+    public Servo servoAvion;
 //    private Servo mozaicFixer;
 
     public FixerAndDrone(HardwareMap hardwareMap){
@@ -16,11 +16,11 @@ public class FixerAndDrone {
     }
 
     public void activateDrone(){
-        servoAvion.setPosition(1);
+        servoAvion.setPosition(0.28);
     }
 
     public void releaseDrone(){
-        servoAvion.setPosition(0);
+        servoAvion.setPosition(1);
     }
 
 //    public void setFixer(double pos){

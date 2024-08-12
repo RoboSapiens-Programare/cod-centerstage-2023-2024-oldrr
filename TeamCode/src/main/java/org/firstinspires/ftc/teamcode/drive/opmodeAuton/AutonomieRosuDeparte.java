@@ -111,16 +111,16 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                     .forward(11)
                     .turn(Math.toRadians(-90))
                     .addTemporalMarker(() -> {
-                        robot.intake.setSweeper(0.75);
+//                        robot.intake.setSweeper(0.75);
                     })
                     .forward(24)
                     .addTemporalMarker(() -> {
-                        robot.intake.setSweeper(0.75);
+//                        robot.intake.setSweeper(0.75);
                         robot.intake.setSweepPower(1);
                     })
                     .waitSeconds(3)
                     .addTemporalMarker(() -> {
-                        robot.intake.ridicaSweeper();
+//                        robot.intake.ridicaSweeper();
                         robot.intake.setSweepPower(0);
                     })
                     .back(4)
@@ -149,16 +149,16 @@ public class AutonomieRosuDeparte extends LinearOpMode {
                         robot.outtake.manualLevel(0);
                     })
                     .addTemporalMarker(() -> {
-                        robot.intake.setSweeper(0.75);
+//                        robot.intake.setSweeper(0.75);
                     })
                     .lineToLinearHeading(new Pose2d(-62,-7, Math.toRadians(-180)))
                     .addTemporalMarker(() -> {
-                        robot.intake.setSweeper(0.75);
+//                        robot.intake.setSweeper(0.75);
                         robot.intake.setSweepPower(1);
                     })
                     .waitSeconds(3)
                     .addTemporalMarker(() -> {
-                        robot.intake.ridicaSweeper();
+//                        robot.intake.ridicaSweeper();
                         robot.intake.setSweepPower(0);
                     })
                     .lineToLinearHeading(new Pose2d(24,-7, Math.toRadians(-180)))

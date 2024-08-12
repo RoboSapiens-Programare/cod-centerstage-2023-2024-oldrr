@@ -23,7 +23,7 @@ public class Intake {
         motorSweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorSweeper.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        servoIntake.setDirection(Servo.Direction.FORWARD);
+//        servoIntake.setDirection(Servo.Direction.FORWARD);
     }
     public void setSweepPower ( double pow){
         motorSweeper.setPower(pow);
@@ -31,11 +31,11 @@ public class Intake {
     public void ridicaSweeper(){
         servoIntake.setPosition(0);
     }
-
+//
     public void coboaraSweeper(){
-        servoIntake.setPosition(1);
+        servoIntake.setPosition(0.25);
     }
-
+//
     public void setSweeper(double pos){
         servoIntake.setPosition(pos);
     }

@@ -12,24 +12,13 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 50, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(60, 50, Math.toRadians(180), Math.toRadians(180), 13.76)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-36, -60.5, Math.toRadians(-90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(12, 63, Math.toRadians(90)))
                                 .setReversed(true)
-                                .back(33)
-                                .forward(11)
-                                .turn(Math.toRadians(-90))
-                                .forward(24)
-                                .back(4)
-                                .strafeRight(2)
-                                .splineToConstantHeading(new Vector2d(47,-25), Math.toRadians(-20))
-//                                .lineToLinearHeading(new Pose2d(-62,-7, Math.toRadians(-180)))
-//                                .lineToLinearHeading(new Pose2d(24,-7, Math.toRadians(-180)))
-//                                .splineToConstantHeading(new Vector2d(47,-25), Math.toRadians(0))
-//                                .forward(2)
-//                                .splineToConstantHeading(new Vector2d(45, -7), Math.toRadians(0))
-//                                .lineToLinearHeading(new Pose2d(-62,-7, Math.toRadians(-290)))
-
+                                .lineToLinearHeading(new Pose2d(35, 29, Math.toRadians(180)))
+                                .lineToLinearHeading(new Pose2d(54, 34, Math.toRadians(180)))
+                                .waitSeconds(10)
                                 .build()
                 );
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

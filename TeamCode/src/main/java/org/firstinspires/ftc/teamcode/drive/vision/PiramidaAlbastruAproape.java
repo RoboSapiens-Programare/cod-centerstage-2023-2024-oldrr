@@ -12,6 +12,8 @@ public class PiramidaAlbastruAproape extends OpenCvPipeline {
     //Telemetry telemetry;
     Mat mat = new Mat();
 
+    public int x1 = 100, y1 = 430, x2 = 200, y2 = 530;
+
     private final Scalar LOW_BLUE = new Scalar(110, 50, 50);
     private final Scalar HIGH_BLUE = new Scalar(130, 255, 255);
 
@@ -27,15 +29,15 @@ public class PiramidaAlbastruAproape extends OpenCvPipeline {
     private PiramidaAlbastruAproape.Location location = PiramidaAlbastruAproape.Location.RIGHT;
 
     //TODO de gasit punctele pentru dreptunghiuri
-    static final Rect LEFT_ROI = new Rect(
-            new Point(100, 430),
-            new Point(200, 530
+    static Rect LEFT_ROI = new Rect(
+            new Point(10, 330),
+            new Point(110, 430
             )
     );
 
-    static final Rect CENTER_ROI = new Rect(
-            new Point (750, 380),
-            new Point(850, 480)
+    static Rect CENTER_ROI = new Rect(
+            new Point (550, 380),
+            new Point(650, 480)
     );
 
     @Override

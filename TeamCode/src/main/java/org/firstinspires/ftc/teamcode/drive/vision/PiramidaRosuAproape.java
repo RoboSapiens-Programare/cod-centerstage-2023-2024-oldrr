@@ -27,12 +27,12 @@ public class PiramidaRosuAproape extends OpenCvPipeline {
     private PiramidaRosuAproape.Location location = PiramidaRosuAproape.Location.LEFT;
 
     //TODO de gasit punctele pentru dreptunghiuri
-    static final Rect CENTER_ROI = new Rect(
+    static Rect CENTER_ROI = new Rect(
             new Point(500, 400),
             new Point(600, 500)
     );
 
-    static final Rect RIGHT_ROI = new Rect(
+    static Rect RIGHT_ROI = new Rect(
             new Point (1160, 370),
             new Point(1260, 470)
     );

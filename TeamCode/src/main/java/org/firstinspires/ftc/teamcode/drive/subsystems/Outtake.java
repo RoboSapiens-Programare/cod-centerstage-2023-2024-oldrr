@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.drive.subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static java.lang.Math.abs;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -75,19 +77,43 @@ public class Outtake {
         }
     }
 
+    public void manualLevel(double manualTarget, double power){
+        motorGlisiera1.setTargetPosition((int) manualTarget);
+        motorGlisiera2.setTargetPosition((int) manualTarget);
+        motorGlisiera1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorGlisiera2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if(motorGlisiera1.getCurrentPosition() < manualTarget )
+        {
+            motorGlisiera1.setPower(power);
+        }
+        else{
+            motorGlisiera1.setPower(-power);
+        }
+        if(motorGlisiera2.getCurrentPosition() < manualTarget )
+        {
+            motorGlisiera2.setPower(-power);
+        }
+        else{
+            motorGlisiera2.setPower(power);
+        }
+    }
+
     public void resetMotors(){
         motorGlisiera1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorGlisiera2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void coboaraCuva(){
-        servoStanga.setPosition(0.75);
-        servoDreapta.setPosition(0.75);
+        double pos = 0.08;
+        servoStanga.setPosition(pos);
+        servoDreapta.setPosition(pos);
     }
 
     public void ridicaCuva(){
-        servoStanga.setPosition(0.1);
-        servoDreapta.setPosition(0.1);
+        double pos = 0.85;
+        servoStanga.setPosition(pos);
+        servoDreapta.setPosition(pos);
     }
 
     public void stangaCuva(){
